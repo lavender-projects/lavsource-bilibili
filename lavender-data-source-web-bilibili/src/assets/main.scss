@@ -1,0 +1,30 @@
+#app * {
+  user-select: none;
+}
+
+:root {
+  --van-doc-background: #eff2f5;
+}
+
+.van-doc-demo-block__title {
+  margin: 0;
+  padding: 16px;
+  color: #969799;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.van-cell__right-icon:before {
+  font-size: var(--van-cell-icon-size) !important;
+}
+
+.top-layer-settings-view {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--van-doc-background);
+
+  .settings-view-content {
+    margin-bottom: 10px;
+  }
+}
