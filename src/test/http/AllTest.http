@@ -1,0 +1,5 @@
+###
+GET {{base_url}}/system/ping
+
+###
+GET {{base_url}}/video/recommended

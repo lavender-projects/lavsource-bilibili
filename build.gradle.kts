@@ -23,7 +23,7 @@ java {
 }
 
 dependencies {
-    implementation("de.honoka.lavender:lavender-api:${Versions.lavenderApi}")
+    implementation("de.honoka.lavender:lavender-data-source-starter:${Versions.lavenderDataSourceStarter}")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
