@@ -1,5 +1,8 @@
 ###
-GET {{base_url}}/system/ping
+GET {{base_url}}/system/serverName
+
+###
+GET {{base_url}}/system/ping?serverName=bilibili
 
 ###
 GET {{base_url}}/video/recommended
