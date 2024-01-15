@@ -12,6 +12,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version versions.kotlin
     kotlin("plugin.spring") version versions.kotlin
+    kotlin("plugin.jpa") version versions.kotlin
 }
 
 group = "de.honoka.lavender"
@@ -26,6 +27,9 @@ dependencies {
     implementation("de.honoka.lavender:lavender-data-source-starter:${Versions.lavenderDataSourceStarter}")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.xerial:sqlite-jdbc")
+    implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.4")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")
     implementation("de.honoka.sdk:honoka-utils:${Versions.honokaUtils}")

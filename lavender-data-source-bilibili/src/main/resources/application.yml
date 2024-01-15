@@ -1,3 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:./files/lavender-data-source-bilibili.db
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: de.honoka.sdk.util.framework.hibernate.SQLiteDialect
+
+# noinspection SpringBootApplicationYaml
 lavender:
   datasource:
     server-name: bilibili
+
+logging:
+  level:
+    de.honoka.lavender.datasource.bilibili.mapper: debug

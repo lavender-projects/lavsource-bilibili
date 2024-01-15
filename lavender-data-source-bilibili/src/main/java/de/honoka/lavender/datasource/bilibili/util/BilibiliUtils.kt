@@ -8,15 +8,6 @@ import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
 import cn.hutool.json.JSONUtil
-import de.honoka.lavender.api.data.Comment
-import de.honoka.lavender.api.data.UserInfo
-import de.honoka.lavender.api.util.toDateOrTimeDistanceString
-import de.honoka.lavender.api.util.toStringWithUnit
-import de.honoka.lavender.datasource.starter.common.ApplicationContextHolder
-import de.honoka.lavender.datasource.starter.common.PropertiesHolder
-import de.honoka.sdk.util.file.FileUtils
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
@@ -38,9 +29,7 @@ object BilibiliUtils {
         JSONUtil.parseObj(cookiesFile.readText())
     }
 
-    private val cookiesFile = Path(
-        FileUtils.getClasspath(), "data", "platform", "bilibili", "cookies.json"
-    ).toFile().apply {
+    private val cookiesFile = Path("files", "cookies.json").toFile().apply {
         if(exists()) return@apply
         FileUtil.touch(this)
         writeText("{}")
