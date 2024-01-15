@@ -8,7 +8,11 @@
                    :rules="[{ required: true, message: '请填写密码' }]" />
         <van-field class="validate-code-field" label="验证码" size="large">
           <template #input>
-            <div class="bilibili-validate-code"></div>
+            <div v-if="!status.validateCodeLoaded && !status.validateCodeLoadFailed">
+              {{ componentData.validateCodeLoadingStatusText }}
+            </div>
+            <div class="bilibili-validate-code" v-if="status.validateCodeLoaded"></div>
+            <div v-if="status.validateCodeLoadFailed" @click="initValidateCode()">加载失败，点击重新加载</div>
           </template>
         </van-field>
       </van-cell-group>
@@ -28,12 +32,18 @@ import messageUtils from '@/utils/message'
 import loginApi from '@/api/login'
 
 const status = reactive({
-  formSubmitting: false
+  formSubmitting: false,
+  validateCodeLoaded: false,
+  validateCodeLoadFailed: false
 })
 
 const form = reactive({
   username: null,
   password: null
+})
+
+const componentData = reactive({
+  validateCodeLoadingStatusText: ''
 })
 
 let validationData = {
@@ -50,6 +60,9 @@ onMounted(() => {
 })
 
 function initValidateCode() {
+  status.validateCodeLoaded = false
+  status.validateCodeLoadFailed = false
+  componentData.validateCodeLoadingStatusText = '加载中……'
   loginApi.validateCode().then(res => {
     let resData = res.data ?? {
       geetest: {
@@ -74,6 +87,10 @@ function initValidateCode() {
       width: '210px',
       https: true
     }, geeTestCallback)
+  }).catch(() => {
+    status.validateCodeLoadFailed = true
+  }).finally(() => {
+    componentData.validateCodeLoadingStatusText = ''
   })
 }
 
@@ -84,6 +101,7 @@ function geeTestCallback(captchaObj) {
       geetest_seccode: null
     })
   }
+  status.validateCodeLoaded = true
   captchaObj.appendTo('.bilibili-login-view .bilibili-validate-code')
   captchaObj.onSuccess(() => {
     let result = captchaObj.getValidate()
