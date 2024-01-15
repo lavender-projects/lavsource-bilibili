@@ -19,7 +19,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Service
-class VideoServiceImpl : VideoService {
+class VideoServiceImpl(
+    private val bilibiliService: BilibiliService
+) : VideoService {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
         val url = "https://api.bilibili.com/x/web-interface/index/top/rcmd"
@@ -29,7 +31,7 @@ class VideoServiceImpl : VideoService {
             //可以通过as，直接对it的类型进行断言，在此语句后使用it，都不用再进行类型转换
             it as JSONObject
             result.add(RecommendedVideoItem().apply {
-                coverImg = BilibiliUtils.getProxiedImageUrl(it.getStr("pic"))
+                coverImg = bilibiliService.getProxiedImageUrl(it.getStr("pic"))
                 playCount = it.getByPath("stat.view", Int::class.java).toStringWithUnit()
                 danmakuCount = it.getByPath("stat.danmaku", Int::class.java).toStringWithUnit()
                 duration = it.getInt("duration").toDurationString()
@@ -52,7 +54,7 @@ class VideoServiceImpl : VideoService {
                 val userCardJson = BilibiliUtils.requestForJsonObject(userCardUrl)
                 name = json.getByPath("data.View.owner.name") as String
                 avatar = json.getByPath("data.View.owner.face", String::class.java).run {
-                    BilibiliUtils.getProxiedImageUrl(this)
+                    bilibiliService.getProxiedImageUrl(this)
                 }
                 followerCount = json.getByPath("data.Card.card.fans", Int::class.java).toStringWithUnit()
                 publishedVideosCount = userCardJson.getByPath(
@@ -83,7 +85,7 @@ class VideoServiceImpl : VideoService {
                     it as JSONObject
                     add(RecommendedVideoItem().apply {
                         videoId = it.getStr("bvid")
-                        coverImg = BilibiliUtils.getProxiedImageUrl(it.getStr("pic"))
+                        coverImg = bilibiliService.getProxiedImageUrl(it.getStr("pic"))
                         duration = it.getInt("duration").toDurationString()
                         title = it.getStr("title")
                         author = it.getByPath("owner.name") as String
@@ -110,12 +112,12 @@ class VideoServiceImpl : VideoService {
             if(page <= 1) {
                 val top = json.getByPath("data.upper.top")
                 if(top !is JSONNull) {
-                    this.top = BilibiliUtils.parseComment(top as JSONObject)
+                    this.top = bilibiliService.parseComment(top as JSONObject)
                 }
             }
             val list = ArrayList<Comment>().also { this.list = it }
             json.getByPath("data.replies", JSONArray::class.java).forEach {
-                list.add(BilibiliUtils.parseComment(it as JSONObject))
+                list.add(bilibiliService.parseComment(it as JSONObject))
             }
         }
         return result
@@ -128,7 +130,7 @@ class VideoServiceImpl : VideoService {
         val result = CommentList().apply {
             val list = ArrayList<Comment>().also { this.list = it }
             json.getByPath("data.replies", JSONArray::class.java).forEach {
-                list.add(BilibiliUtils.parseComment(it as JSONObject))
+                list.add(bilibiliService.parseComment(it as JSONObject))
             }
         }
         return result
@@ -168,11 +170,11 @@ class VideoServiceImpl : VideoService {
                 type = "dash"
                 this.qualityId = qualityId.toInt()
                 qualityName = qualityIdNameMap[qualityId]
-                videoStreamUrl = BilibiliUtils.getProxiedImageUrl(it.getStr("base_url"))
+                videoStreamUrl = bilibiliService.getProxiedImageUrl(it.getStr("base_url"))
                 var audioIndex = i - videoIndeoList.size + audioInfoList.size
                 if(audioIndex < 0) audioIndex = 0
                 audioStreamUrl = audioInfoList[audioIndex].getStr("base_url").run {
-                    BilibiliUtils.getProxiedImageUrl(this)
+                    bilibiliService.getProxiedImageUrl(this)
                 }
             })
             addedQualityId.add(qualityId)

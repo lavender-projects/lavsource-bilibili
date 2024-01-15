@@ -6,3 +6,9 @@ GET {{base_url}}/system/ping?serverName=bilibili
 
 ###
 GET {{base_url}}/video/recommended
+
+###
+GET {{base_url}}/platform/bilibili/validateCode
+
+###
+GET {{base_url}}/platform/bilibili/loginStatus

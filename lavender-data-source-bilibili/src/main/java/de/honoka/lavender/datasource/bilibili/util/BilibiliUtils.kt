@@ -46,10 +46,6 @@ object BilibiliUtils {
         writeText("{}")
     }
 
-    private val propertiesHolder by lazy {
-        ApplicationContextHolder.getBean<PropertiesHolder>()
-    }
-
     fun encryptPassword(password: String, rawKey: String, hash: String): String {
         val key = StringBuilder().apply {
             rawKey.lines().let {
@@ -78,13 +74,16 @@ object BilibiliUtils {
         else res.substring(0, res.lastIndexOf(";"))
     }
 
-    fun HttpRequest.executeAndSaveBiliCookies(): HttpResponse = execute().also {
-        val cookiesArr = JSONUtil.parseArray(JSONUtil.toJsonPrettyStr(it.cookies))
+    fun HttpRequest.executeAndSaveBiliCookies(): HttpResponse = execute().saveBiliCookies()
+
+    fun HttpResponse.saveBiliCookies(): HttpResponse {
+        val cookiesArr = JSONUtil.parseArray(JSONUtil.toJsonPrettyStr(cookies))
         cookiesArr.forEach { cookie ->
             val parts = (cookie as String).split("=")
-            cookies[parts[0]] = parts[1]
+            BilibiliUtils.cookies[parts[0]] = parts[1]
         }
-        cookiesFile.writeText(cookies.toStringPretty())
+        cookiesFile.writeText(BilibiliUtils.cookies.toStringPretty())
+        return this
     }
 
     fun HttpRequest.addBiliCookies() {
@@ -123,50 +122,8 @@ object BilibiliUtils {
         return (json.getByPath("data.aid") as Number).toLong()
     }
 
-    fun getProxiedImageUrl(url: String) = run {
-        val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8)
-        "${propertiesHolder.serverAccessUrlPrefix}/platform/bilibili/image/proxy?url=$encodedUrl"
-    }
-
-    fun parseComment(json: JSONObject): Comment = Comment().apply {
-        id = json.getLong("rpid")
-        sender = UserInfo().apply {
-            id = json.getByPath("member.mid", String::class.java).toLong()
-            name = json.getByPath("member.uname") as String
-            avatar = json.getByPath("member.avatar", String::class.java).run {
-                getProxiedImageUrl(this)
-            }
-            level = json.getByPath("member.level_info.current_level") as Int
-            ipLocation = json.getByPath("reply_control.location", String::class.java).run {
-                if(this?.isEmpty() != false) return@run "未知"
-                split("：").run {
-                    if(size >= 2) this[1] else this[0]
-                }
-            }
-        }
-        sendDate = json.getLong("ctime").toDateOrTimeDistanceString()
-        content = run {
-            var result = json.getByPath("content.message", String::class.java)
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-            val emote = json.getByPath("content.emote", JSONObject::class.java)
-            emote?.keys?.forEach {
-                val url = emote.getJSONObject(it).getStr("url").run {
-                    getProxiedImageUrl(this)
-                }
-                val size = emote.getJSONObject(it).getByPath("meta.size", Int::class.java)
-                val sizeClass = "comment-emoticon-size-$size"
-                result = result.replace(it, "<img class=\"comment-emoticon ${sizeClass}\" src=\"${url}\" />")
-            }
-            result
-        }
-        likeCount = json.getInt("like").toStringWithUnit()
-        if(json.getInt("root") != 0) return@apply
-        val previewReplyList = ArrayList<Comment>().also { previewReplyList = it }
-        json.getJSONArray("replies").forEach {
-            previewReplyList.add(parseComment(it as JSONObject))
-        }
-        replyCount = json.getInt("rcount")
-        replyCountStr = (replyCount ?: 0).toStringWithUnit()
+    fun clearCookies() {
+        cookies.clear()
+        cookiesFile.writeText("{}")
     }
 }

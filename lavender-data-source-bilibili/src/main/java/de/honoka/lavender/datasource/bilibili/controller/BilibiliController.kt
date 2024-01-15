@@ -17,13 +17,16 @@ class BilibiliController(
 ) {
 
     @GetMapping("/validateCode")
-    fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.validateCode())
+    fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getValidateCode())
 
     @PostMapping("/login")
     fun login(@RequestBody params: BilibiliLoginParams): ApiResponse<Unit> {
         bilibiliService.login(params)
         return ApiResponse.success(null)
     }
+
+    @GetMapping("/loginStatus")
+    fun loginStatus(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getLoginStatus())
 
     @GetMapping("/image/proxy")
     fun imageProxy(@RequestParam url: String, response: HttpServletResponse) = response.run {
@@ -32,5 +35,11 @@ class BilibiliController(
             contentType = originalRes.header(HttpHeaders.CONTENT_TYPE)
             it.write(originalRes.bodyBytes())
         }
+    }
+
+    @GetMapping("/logout")
+    fun logout(): ApiResponse<Unit> {
+        bilibiliService.logout()
+        return ApiResponse.success(null)
     }
 }

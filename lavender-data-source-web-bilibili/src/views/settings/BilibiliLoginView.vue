@@ -11,7 +11,7 @@
             <div v-if="!status.validateCodeLoaded && !status.validateCodeLoadFailed">
               {{ componentData.validateCodeLoadingStatusText }}
             </div>
-            <div class="bilibili-validate-code" v-if="status.validateCodeLoaded"></div>
+            <div class="bilibili-validate-code" ref="validateCodeDom" v-if="status.validateCodeLoaded"></div>
             <div v-if="status.validateCodeLoadFailed" @click="initValidateCode()">加载失败，点击重新加载</div>
           </template>
         </van-field>
@@ -27,9 +27,10 @@
 
 <script setup>
 import TopLayerSettingsView from '@/components/TopLayerSettingsView.vue'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import messageUtils from '@/utils/message'
 import loginApi from '@/api/login'
+import { useRouter } from 'vue-router'
 
 const status = reactive({
   formSubmitting: false,
@@ -54,6 +55,10 @@ let validationData = {
   seccode: null,
   passed: false
 }
+
+const validateCodeDom = ref()
+
+const router = useRouter()
 
 onMounted(() => {
   initValidateCode()
@@ -120,7 +125,18 @@ function onSubmit() {
     return
   }
   status.formSubmitting = true
-  console.log(form, validationData)
+  loginApi.login({
+    ...form,
+    ...validationData
+  }).then(res => {
+    if(res.status !== true) return
+    router.push('/settings')
+  }).catch(() => {
+    validateCodeDom.value.innerHTML = ''
+    initValidateCode()
+  }).finally(() => {
+    status.formSubmitting = false
+  })
 }
 </script>
 
