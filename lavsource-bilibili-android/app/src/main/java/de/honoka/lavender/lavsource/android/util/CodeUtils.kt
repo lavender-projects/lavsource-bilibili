@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.util
+package de.honoka.lavender.lavsource.android.util
 
 import cn.hutool.core.io.FileUtil
 import cn.hutool.core.io.IoUtil

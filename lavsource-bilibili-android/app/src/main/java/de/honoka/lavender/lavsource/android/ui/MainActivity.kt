@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.ui
+package de.honoka.lavender.lavsource.android.ui
 
 import android.content.Intent
 import android.os.Build
@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import de.honoka.lavender.lavsource.android.util.GlobalData
+import de.honoka.lavender.lavsource.android.util.LavsourceServer
+import de.honoka.lavender.lavsource.android.util.ServerUtils
+import de.honoka.lavender.lavsource.android.util.WebServer
+import de.honoka.lavender.lavsource.android.util.copyAssetsFileTo
+import de.honoka.lavender.lavsource.android.util.runShellCommandForResult
 import de.honoka.lavender.lavsource.bilibili.R
-import de.honoka.lavender.lavsource.util.GlobalData
-import de.honoka.lavender.lavsource.util.LavsourceServer
-import de.honoka.lavender.lavsource.util.ServerUtils
-import de.honoka.lavender.lavsource.util.WebServer
-import de.honoka.lavender.lavsource.util.copyAssetsFileTo
-import de.honoka.lavender.lavsource.util.runShellCommandForResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

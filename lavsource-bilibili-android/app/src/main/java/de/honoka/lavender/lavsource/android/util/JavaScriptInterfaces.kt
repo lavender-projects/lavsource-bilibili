@@ -1,8 +1,8 @@
-package de.honoka.lavender.lavsource.util
+package de.honoka.lavender.lavsource.android.util
 
 import android.content.Intent
 import android.webkit.JavascriptInterface
-import de.honoka.lavender.lavsource.ui.WebActivity
+import de.honoka.lavender.lavsource.android.ui.WebActivity
 
 object JavaScriptInterfaces {
 

@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.util
+package de.honoka.lavender.lavsource.android.util
 
 import android.app.Application
 

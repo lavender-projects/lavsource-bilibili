@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:ignore="HardcodedText"
-    tools:context="de.honoka.lavender.lavsource.ui.MainActivity">
+    tools:context="de.honoka.lavender.lavsource.android.ui.MainActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.ui
+package de.honoka.lavender.lavsource.android.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,12 +10,12 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import de.honoka.lavender.lavsource.android.util.JavaScriptInterfaces
+import de.honoka.lavender.lavsource.android.util.LavsourceServer
+import de.honoka.lavender.lavsource.android.util.ServerVariables
+import de.honoka.lavender.lavsource.android.util.WebServer
+import de.honoka.lavender.lavsource.android.util.launchCoroutineOnUiThread
 import de.honoka.lavender.lavsource.bilibili.R
-import de.honoka.lavender.lavsource.util.JavaScriptInterfaces
-import de.honoka.lavender.lavsource.util.LavsourceServer
-import de.honoka.lavender.lavsource.util.ServerVariables
-import de.honoka.lavender.lavsource.util.WebServer
-import de.honoka.lavender.lavsource.util.launchCoroutineOnUiThread
 import kotlinx.coroutines.delay
 import kotlin.system.exitProcess
 
