@@ -17,4 +17,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "lavender-data-source-bilibili"
+rootProject.name = "lavsource-bilibili-server"
