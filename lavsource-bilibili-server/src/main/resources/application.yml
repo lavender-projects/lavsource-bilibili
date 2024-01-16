@@ -12,9 +12,9 @@ spring:
 
 # noinspection SpringBootApplicationYaml
 lavender:
-  datasource:
+  lavsource:
     server-name: bilibili
 
 logging:
   level:
-    de.honoka.lavender.datasource.bilibili.mapper: debug
+    de.honoka.lavender.lavsource.bilibili.mapper: debug

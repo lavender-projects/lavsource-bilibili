@@ -11,5 +11,5 @@ object Versions {
 
     const val honokaFrameworkUtils = "1.0.2"
 
-    const val lavenderDataSourceStarter = "1.0.1-dev"
+    const val lavsourceSpringBootStarterVersion = "1.0.1-dev"
 }

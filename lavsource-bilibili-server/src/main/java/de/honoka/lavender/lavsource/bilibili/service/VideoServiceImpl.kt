@@ -1,4 +1,4 @@
-package de.honoka.lavender.datasource.bilibili.service
+package de.honoka.lavender.lavsource.bilibili.service
 
 import cn.hutool.core.util.XmlUtil
 import cn.hutool.http.HttpResponse
@@ -9,10 +9,10 @@ import cn.hutool.json.JSONObject
 import de.honoka.lavender.api.data.*
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
-import de.honoka.lavender.datasource.bilibili.util.BilibiliUtils
-import de.honoka.lavender.datasource.bilibili.util.BilibiliUtils.addBiliCookies
-import de.honoka.lavender.datasource.bilibili.util.BilibiliUtils.executeWithBiliCookies
-import de.honoka.lavender.datasource.starter.service.VideoService
+import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils
+import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.addBiliCookies
+import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.lavender.lavsource.starter.service.VideoService
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat

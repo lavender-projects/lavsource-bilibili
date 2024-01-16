@@ -24,7 +24,7 @@ java {
 }
 
 dependencies {
-    implementation("de.honoka.lavender:lavender-data-source-starter:${Versions.lavenderDataSourceStarter}")
+    implementation("de.honoka.lavender:lavsource-spring-boot-starter:${Versions.lavsourceSpringBootStarterVersion}")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

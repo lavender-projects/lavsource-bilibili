@@ -1,4 +1,4 @@
-package de.honoka.lavender.datasource.bilibili.util
+package de.honoka.lavender.lavsource.bilibili.util
 
 import cn.hutool.core.codec.Base64
 import cn.hutool.core.io.FileUtil

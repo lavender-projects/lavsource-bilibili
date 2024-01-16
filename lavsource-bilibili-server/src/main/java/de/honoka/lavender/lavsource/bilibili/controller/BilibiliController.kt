@@ -1,10 +1,10 @@
-package de.honoka.lavender.datasource.bilibili.controller
+package de.honoka.lavender.lavsource.bilibili.controller
 
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
-import de.honoka.lavender.datasource.bilibili.data.BilibiliLoginParams
-import de.honoka.lavender.datasource.bilibili.service.BilibiliService
-import de.honoka.lavender.datasource.bilibili.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.lavender.lavsource.bilibili.data.BilibiliLoginParams
+import de.honoka.lavender.lavsource.bilibili.service.BilibiliService
+import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.executeWithBiliCookies
 import de.honoka.sdk.util.framework.web.ApiResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.*
