@@ -15,7 +15,7 @@ const androidInterfaces = {
       history.back()
     }
   },
-  backendInterface: window['android_BackendInterface'] ?? {
+  lavsourceServerJsInterface: window['android_LavsourceServerJsInterface'] ?? {
     getUrlPrefix: emptyImplementation()
   }
 }

@@ -3,6 +3,7 @@ package de.honoka.lavender.lavsource.android.util
 import android.webkit.MimeTypeMap
 import cn.hutool.http.HttpUtil
 import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONObject
 import fi.iki.elonen.NanoHTTPD
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -41,16 +42,12 @@ class WebServer(port: Int = ServerVariables.webServerPort) : NanoHTTPD(port) {
     }
 
     override fun serve(session: IHTTPSession): Response {
-        val params = HashMap<String, String>()
-        session.parameters.forEach {
-            params[it.key] = if(it.value.isNotEmpty()) it.value[0] else ""
-        }
         var path = session.uri
         if(path == "/") path = "/index.html"
-        return handle(path, params)
+        return handle(path)
     }
 
-    private fun handle(path: String, params: Map<String, String>): Response {
+    private fun handle(path: String): Response {
         //判断路径前缀
         staticResourcesPrefixes.forEach {
             //加载静态资源
@@ -105,16 +102,25 @@ class LavsourceServer(private val port: Int = ServerVariables.lavsourceServerPor
 
     private fun ensureServerRunning() {
         val pingUrl = ServerVariables.getUrlByLavsourceServerPrefix("/system/ping")
+        var connectException: ConnectException? = null
         for(i in 1..10) {
             try {
-                val res = JSON.parseObject(HttpUtil.get(pingUrl))
+                val res = HttpUtil.get(pingUrl, JSONObject().fluentPut("serverName", "bilibili")).let {
+                    JSON.parseObject(it)
+                }
                 //status可能为null
-                if(res.getBoolean("status") == true) break
+                when(res.getBoolean("status")) {
+                    true -> return
+                    false -> throw Exception(res.getString("msg"))
+                    else -> {}
+                }
             } catch(t: Throwable) {
                 if(t.cause !is ConnectException) throw t
+                connectException = t.cause as ConnectException
             }
             TimeUnit.SECONDS.sleep(1)
         }
+        throw connectException!!
     }
 }
 
