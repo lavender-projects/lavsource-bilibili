@@ -97,9 +97,8 @@ class LavsourceServer(private val port: Int = ServerVariables.lavsourceServerPor
         process = ProcessBuilder(
             "sh", "${GlobalData.application.dataDir}/lavsource-server/startup.sh", port.toString()
         ).apply {
-            val logFile = File("${GlobalData.application.dataDir}/lavsource-server/process.log")
-            redirectOutput(logFile)
-            redirectError(logFile)
+            redirectOutput(File("${GlobalData.application.dataDir}/lavsource-server/process.log"))
+            redirectErrorStream(true)
         }.start()
         ensureServerRunning()
     }

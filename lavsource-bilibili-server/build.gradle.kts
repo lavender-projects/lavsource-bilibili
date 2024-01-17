@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("org.xerial:sqlite-jdbc")
+    implementation("com.h2database:h2")
     implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.4")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")

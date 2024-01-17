@@ -9,7 +9,7 @@ object Versions {
 
     const val honokaUtils = "1.0.8"
 
-    const val honokaFrameworkUtils = "1.0.2"
+    const val honokaFrameworkUtils = "1.0.3"
 
     const val lavsourceSpringBootStarterVersion = "1.0.1-dev"
 }

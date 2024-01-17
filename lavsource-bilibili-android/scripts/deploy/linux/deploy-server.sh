@@ -33,3 +33,4 @@ chmod +x gradlew
 cd ./build/libs
 mv lavsource-bilibili-server.jar lavsource-server.jar
 cp -f lavsource-server.jar "$LAVSOURCE_SERVER_PATH"
+mv lavsource-server.jar lavsource-bilibili-server.jar
