@@ -1,4 +1,5 @@
 /files/
+/src/main/resources/config/application-localDev.yml
 
 .gradle
 build/

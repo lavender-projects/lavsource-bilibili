@@ -79,6 +79,11 @@ class BilibiliService(
         "${propertiesHolder.serverAccessUrlPrefix}/platform/bilibili/image/proxy?url=$encodedUrl"
     }
 
+    fun getProxiedMediaStreamUrl(url: String) = run {
+        val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8)
+        "${propertiesHolder.serverAccessUrlPrefix}/video/stream?url=$encodedUrl"
+    }
+
     fun parseComment(json: JSONObject): Comment = Comment().apply {
         id = json.getLong("rpid")
         sender = UserInfo().apply {

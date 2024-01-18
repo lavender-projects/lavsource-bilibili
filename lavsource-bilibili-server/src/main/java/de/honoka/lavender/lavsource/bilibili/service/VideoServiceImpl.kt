@@ -170,11 +170,11 @@ class VideoServiceImpl(
                 type = "dash"
                 this.qualityId = qualityId.toInt()
                 qualityName = qualityIdNameMap[qualityId]
-                videoStreamUrl = bilibiliService.getProxiedImageUrl(it.getStr("base_url"))
+                videoStreamUrl = bilibiliService.getProxiedMediaStreamUrl(it.getStr("base_url"))
                 var audioIndex = i - videoIndeoList.size + audioInfoList.size
                 if(audioIndex < 0) audioIndex = 0
                 audioStreamUrl = audioInfoList[audioIndex].getStr("base_url").run {
-                    bilibiliService.getProxiedImageUrl(this)
+                    bilibiliService.getProxiedMediaStreamUrl(this)
                 }
             })
             addedQualityId.add(qualityId)
