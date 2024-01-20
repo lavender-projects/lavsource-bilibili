@@ -103,7 +103,7 @@ class LavsourceServer(private val port: Int = ServerVariables.lavsourceServerPor
     private fun ensureServerRunning() {
         val pingUrl = ServerVariables.getUrlByLavsourceServerPrefix("/system/ping")
         var connectException: ConnectException? = null
-        for(i in 1..10) {
+        for(i in 1..20) {
             try {
                 val res = HttpUtil.get(pingUrl, JSONObject().fluentPut("serverName", "bilibili")).let {
                     JSON.parseObject(it)
