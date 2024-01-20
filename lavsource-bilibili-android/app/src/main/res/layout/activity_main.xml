@@ -4,28 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
     tools:ignore="HardcodedText"
     tools:context="de.honoka.lavender.lavsource.android.ui.MainActivity">
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:text="Lavender"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/kunstler" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LavSource"
-            android:textSize="50sp"
-            android:fontFamily="@font/consolas_italic" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="bilibili"
-            android:textSize="30sp"
-            android:fontFamily="@font/consolas" />
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="LavSource bilibili"
+        android:textSize="25sp"
+        android:fontFamily="@font/segoe_ui" />
 </LinearLayout>
