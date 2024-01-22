@@ -2,9 +2,9 @@
 
 import axios from 'axios'
 import messageUtils from './message'
-import androidInterfaces from '@/utils/androidInterfaces'
+import lavsourceServerJsInterface from '@/androidJsInterfaces/lavsourceServerJsInterface'
 
-let baseURL = androidInterfaces.lavsourceServerJsInterface.getUrlPrefix()
+let baseURL = lavsourceServerJsInterface.getUrlPrefix()
 if(baseURL == null) baseURL = import.meta.env.VITE_API_BASE_URL
 
 const request = axios.create({

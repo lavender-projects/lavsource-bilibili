@@ -1,3 +1,5 @@
+//noinspection JSUnusedGlobalSymbols
+
 const codeUtils = {
   sleep: timeMillis => new Promise(res => setTimeout(res, timeMillis)),
   getDomHeight: dom => parseFloat(window.getComputedStyle(dom).height),
