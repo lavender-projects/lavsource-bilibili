@@ -2,7 +2,7 @@
 
 import { jsInterfaceUtils } from '@/utils/androidJsInterfaces'
 
-const basicJsInterface = jsInterfaceUtils.getJsInterfaceStub('BasicJsInterface', {
+const methodDefinitions = {
   openNewWebActivity: path => {
     jsInterfaceUtils.jsInterfaceWarning()
     window.location.href = path
@@ -11,6 +11,10 @@ const basicJsInterface = jsInterfaceUtils.getJsInterfaceStub('BasicJsInterface',
     jsInterfaceUtils.jsInterfaceWarning()
     history.back()
   }
-})
+}
+
+const basicJsInterface = jsInterfaceUtils.getJsInterfaceStub(
+  'BasicJsInterface', methodDefinitions
+) ?? methodDefinitions
 
 export default basicJsInterface

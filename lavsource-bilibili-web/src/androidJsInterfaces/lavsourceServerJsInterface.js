@@ -1,7 +1,11 @@
 import { jsInterfaceUtils } from '@/utils/androidJsInterfaces'
 
-const lavsourceServerJsInterface = jsInterfaceUtils.getJsInterfaceStub('LavsourceServerJsInterface', {
+const methodDefinitions = {
   getUrlPrefix: jsInterfaceUtils.emptyImplementation()
-})
+}
+
+const lavsourceServerJsInterface = jsInterfaceUtils.getJsInterfaceStub(
+  'LavsourceServerJsInterface', methodDefinitions
+) ?? methodDefinitions
 
 export default lavsourceServerJsInterface
