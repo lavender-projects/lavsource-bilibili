@@ -8,6 +8,9 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css'
+import jsInterfaceAsyncMethodCallbackUtils from '@/utils/androidJsInterfaces/asyncSupport/callback'
+
+jsInterfaceAsyncMethodCallbackUtils.exposeToGlobal()
 
 const app = createApp(App)
 

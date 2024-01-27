@@ -10,7 +10,7 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import de.honoka.lavender.lavsource.android.util.JavaScriptInterfaces
+import de.honoka.lavender.lavsource.android.jsinterface.JavaScriptInterfaces
 import de.honoka.lavender.lavsource.android.util.LavsourceServer
 import de.honoka.lavender.lavsource.android.util.ServerVariables
 import de.honoka.lavender.lavsource.android.util.WebServer
@@ -47,6 +47,8 @@ class WebActivity : AppCompatActivity() {
     }
 
     private val webChromeClient = WebChromeClient()
+
+    private lateinit var javaScriptInterfaces: JavaScriptInterfaces
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
 
@@ -88,7 +90,6 @@ class WebActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web)
         initActivityParams()
         initWebView()
-        registerJsInterface()
     }
 
     override fun onPause() {
@@ -114,7 +115,8 @@ class WebActivity : AppCompatActivity() {
     }
 
     private fun initWebView() {
-        webView = findViewById<WebView>(R.id.web_view).apply {
+        webView = findViewById(R.id.web_view)
+        webView.apply {
             webViewClient = this@WebActivity.webViewClient
             webChromeClient = this@WebActivity.webChromeClient
             settings.run {
@@ -123,15 +125,14 @@ class WebActivity : AppCompatActivity() {
             }
             isVerticalScrollBarEnabled = false
             scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
+            javaScriptInterfaces = JavaScriptInterfaces(this@WebActivity)
             loadUrl(this@WebActivity.url)
         }
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
     }
 
-    private fun registerJsInterface() {
-        JavaScriptInterfaces.newAll(this).forEach {
-            webView.addJavascriptInterface(it, "android_${it.javaClass.simpleName}")
-        }
+    fun evaluateJavascript(script: String, callback: (String) -> Unit = {}) = runOnUiThread {
+        webView.evaluateJavascript(script, callback)
     }
 
     //返回true表示有监听器的预定义行为被触发

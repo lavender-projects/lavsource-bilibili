@@ -1,20 +1,11 @@
-package de.honoka.lavender.lavsource.android.util
+package de.honoka.lavender.lavsource.android.jsinterface.definition
 
 import android.content.Intent
 import android.webkit.JavascriptInterface
 import de.honoka.lavender.lavsource.android.ui.WebActivity
+import de.honoka.lavender.lavsource.android.util.ServerVariables
 
-object JavaScriptInterfaces {
-
-    fun newAll(webActivity: WebActivity) = arrayOf(
-        BasicJsInterface(webActivity),
-        LavsourceServerJsInterface()
-    )
-}
-
-class BasicJsInterface(
-    private val webActivity: WebActivity
-) {
+class BasicJsInterface(private val webActivity: WebActivity) {
 
     @JavascriptInterface
     fun openNewWebActivity(path: String) {
@@ -29,10 +20,4 @@ class BasicJsInterface(
     fun finishCurrentWebActivity() {
         webActivity.finish()
     }
-}
-
-class LavsourceServerJsInterface {
-
-    @JavascriptInterface
-    fun getUrlPrefix() = "http://localhost:${ServerVariables.lavsourceServerPort}"
 }
