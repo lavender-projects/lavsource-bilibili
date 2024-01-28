@@ -1,7 +1,7 @@
 import { jsInterfaceUtils } from '@/utils/androidJsInterfaces'
 
 const methodDefinitions = {
-  getUrlPrefix: jsInterfaceUtils.emptyImplementation()
+  getUrlPrefix: () => {}
 }
 
 const lavsourceServerJsInterface = jsInterfaceUtils.getJsInterfaceStub(
