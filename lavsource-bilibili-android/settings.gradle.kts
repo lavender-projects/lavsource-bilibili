@@ -19,6 +19,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "LavSource bilibili"
+rootProject.name = "lavsource-bilibili-android"
 
 include(":app")
