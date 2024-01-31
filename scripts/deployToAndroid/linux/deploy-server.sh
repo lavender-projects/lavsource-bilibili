@@ -2,7 +2,7 @@
 
 set -e
 
-cd $(dirname "$0")/../../..
+cd $(dirname "$0")/../../../android
 PROJECT_PATH="$(pwd)"
 
 TERMUX_ENV_PATH="$PROJECT_PATH/src/main/assets/termux"
