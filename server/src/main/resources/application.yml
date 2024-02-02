@@ -3,7 +3,6 @@ spring:
     active: dev
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:./files/lavsource-bilibili-server;auto_server=true
   jpa:
     show-sql: true
     hibernate:

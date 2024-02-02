@@ -29,7 +29,7 @@ object BilibiliUtils {
         JSONUtil.parseObj(cookiesFile.readText())
     }
 
-    private val cookiesFile = Path("files", "cookies.json").toFile().apply {
+    private val cookiesFile = Path(EnvironmentPathUtils.dataDirPathOfApp, "data/cookies.json").toFile().apply {
         if(exists()) return@apply
         FileUtil.touch(this)
         writeText("{}")

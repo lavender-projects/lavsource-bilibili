@@ -1,13 +1,17 @@
 package de.honoka.lavender.lavsource.bilibili
 
+import de.honoka.lavender.lavsource.bilibili.util.EmbeddedDatabaseUtils
+import de.honoka.sdk.util.framework.database.AbstractEmbeddedDatabaseUtils
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import java.io.File
 
 @SpringBootApplication
 class BilibiliLavsourceApplication
 
 fun main(args: Array<String>) {
-    File("files").run { if(!exists()) mkdirs() }
+    EmbeddedDatabaseUtils.setJdbcUrlRelatedWithDataDirInJvmProps(
+        AbstractEmbeddedDatabaseUtils.Database.H2,
+        "data/lavsource-bilibili-server"
+    )
     runApplication<BilibiliLavsourceApplication>(*args)
 }
