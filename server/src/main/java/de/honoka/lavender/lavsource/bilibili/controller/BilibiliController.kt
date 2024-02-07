@@ -20,9 +20,9 @@ class BilibiliController(
     fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getValidateCode())
 
     @PostMapping("/login")
-    fun login(@RequestBody params: BilibiliLoginParams): ApiResponse<Unit> {
+    fun login(@RequestBody params: BilibiliLoginParams): ApiResponse<*> {
         bilibiliService.login(params)
-        return ApiResponse.success(null)
+        return ApiResponse.success()
     }
 
     @GetMapping("/loginStatus")
@@ -38,8 +38,8 @@ class BilibiliController(
     }
 
     @GetMapping("/logout")
-    fun logout(): ApiResponse<Unit> {
+    fun logout(): ApiResponse<*> {
         bilibiliService.logout()
-        return ApiResponse.success(null)
+        return ApiResponse.success()
     }
 }

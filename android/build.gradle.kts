@@ -26,10 +26,7 @@ android {
         release {
             isMinifyEnabled = false
             @Suppress("UnstableApiUsage")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -44,10 +41,10 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("cn.hutool:hutool-all:5.8.18")
     implementation("com.alibaba.fastjson2:fastjson2:2.0.40.android4")
     implementation("org.nanohttpd:nanohttpd:2.3.1")

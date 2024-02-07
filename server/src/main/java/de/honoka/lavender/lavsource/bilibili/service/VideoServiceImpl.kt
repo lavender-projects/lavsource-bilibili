@@ -72,7 +72,7 @@ class VideoServiceImpl(
             playCount = json.getByPath("data.View.stat.view", Int::class.java).toStringWithUnit()
             danmakuCount = json.getByPath("data.View.stat.danmaku", Int::class.java).toStringWithUnit()
             publishTime = json.getByPath("data.View.pubdate", Long::class.java).run {
-                val dateFormat = SimpleDateFormat("yyyy年M月d日 HH:mm")
+                val dateFormat = SimpleDateFormat("yyyy年M月d日 HH:mm", Locale.SIMPLIFIED_CHINESE)
                 dateFormat.format(Date(this * 1000))
             }
             replyCount = json.getByPath("data.View.stat.reply", Int::class.java).toStringWithUnit()
