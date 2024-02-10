@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("de.honoka.sdk:honoka-android-utils:1.0.3-dev")
     implementation("cn.hutool:hutool-all:5.8.18")
     implementation("com.alibaba.fastjson2:fastjson2:2.0.40.android4")
     implementation("org.nanohttpd:nanohttpd:2.3.1")

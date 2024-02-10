@@ -1,9 +1,9 @@
-package de.honoka.lavender.lavsource.android.jsinterface.definition
+package de.honoka.lavender.lavsource.android.jsinterface
 
 import android.content.Intent
 import android.webkit.JavascriptInterface
 import de.honoka.lavender.lavsource.android.ui.WebActivity
-import de.honoka.lavender.lavsource.android.util.ServerVariables
+import de.honoka.sdk.util.android.server.HttpServerVariables
 
 class BasicJsInterface(private val webActivity: WebActivity) {
 
@@ -11,7 +11,7 @@ class BasicJsInterface(private val webActivity: WebActivity) {
     fun openNewWebActivity(path: String) {
         webActivity.run {
             startActivity(Intent(this, WebActivity::class.java).apply {
-                putExtra("url", ServerVariables.getUrlByWebServerPrefix(path))
+                putExtra("url", HttpServerVariables.getUrlByPrefix(path))
             })
         }
     }

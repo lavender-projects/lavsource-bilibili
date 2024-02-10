@@ -10,12 +10,13 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import de.honoka.lavender.lavsource.android.jsinterface.JavaScriptInterfaces
+import de.honoka.lavender.lavsource.android.util.JsInterfaceContainerFactory
 import de.honoka.lavender.lavsource.android.util.LavsourceServer
-import de.honoka.lavender.lavsource.android.util.ServerVariables
-import de.honoka.lavender.lavsource.android.util.WebServer
-import de.honoka.lavender.lavsource.android.util.launchCoroutineOnUiThread
 import de.honoka.lavender.lavsource.bilibili.R
+import de.honoka.sdk.util.android.common.launchCoroutineOnUiThread
+import de.honoka.sdk.util.android.jsinterface.JavascriptInterfaceContainer
+import de.honoka.sdk.util.android.server.HttpServer
+import de.honoka.sdk.util.android.server.HttpServerVariables
 import kotlinx.coroutines.delay
 import kotlin.system.exitProcess
 
@@ -48,7 +49,7 @@ class WebActivity : AppCompatActivity() {
 
     private val webChromeClient = WebChromeClient()
 
-    private lateinit var javaScriptInterfaces: JavaScriptInterfaces
+    private lateinit var jsInterfaceContainer: JavascriptInterfaceContainer
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
 
@@ -98,7 +99,7 @@ class WebActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        WebServer.checkOrRestartInstance()
+        HttpServer.checkOrRestartInstance()
         LavsourceServer.checkOrRestartInstance()
         dispatchEventToListenersInWebViewDirectly("onActivityResumeListeners")
         super.onResume()
@@ -110,7 +111,7 @@ class WebActivity : AppCompatActivity() {
     }
 
     private fun initActivityParams() {
-        url = intent.getStringExtra("url") ?: ServerVariables.getUrlByWebServerPrefix("")
+        url = intent.getStringExtra("url") ?: HttpServerVariables.getUrlByPrefix("")
         firstWebActivity = intent.getBooleanExtra("firstWebActivity", false)
     }
 
@@ -125,7 +126,7 @@ class WebActivity : AppCompatActivity() {
             }
             isVerticalScrollBarEnabled = false
             scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
-            javaScriptInterfaces = JavaScriptInterfaces(this@WebActivity)
+            jsInterfaceContainer = JsInterfaceContainerFactory(this@WebActivity).getContainer()
             loadUrl(this@WebActivity.url)
         }
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
