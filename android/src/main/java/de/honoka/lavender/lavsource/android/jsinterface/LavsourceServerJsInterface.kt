@@ -6,5 +6,5 @@ import de.honoka.lavender.lavsource.android.util.LavsourceServerVariables
 class LavsourceServerJsInterface {
 
     @JavascriptInterface
-    fun getUrlPrefix() = "http://localhost:${LavsourceServerVariables.lavsourceServerPort}"
+    fun getUrlPrefix() = "http://localhost:${LavsourceServerVariables.serverPort}"
 }

@@ -15,6 +15,7 @@ import de.honoka.sdk.util.android.server.HttpServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -80,7 +81,9 @@ class MainActivity : AppCompatActivity() {
                 "${application.dataDir}/lavsource-server/startup.sh"
             )
         }
-        LavsourceServer.checkOrRestartInstance()
+        runBlocking {
+            LavsourceServer.checkOrRestartInstance().join()
+        }
     }
 
     private fun jumpToWebActivty() = runOnUiThread {

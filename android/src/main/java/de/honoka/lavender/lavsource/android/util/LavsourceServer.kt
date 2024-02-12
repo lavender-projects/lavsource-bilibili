@@ -6,22 +6,25 @@ import cn.hutool.json.JSONUtil
 import de.honoka.sdk.util.android.common.GlobalComponents
 import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
 import de.honoka.sdk.util.android.server.HttpServerUtils
+import de.honoka.sdk.util.android.server.HttpServerVariables
 import java.io.File
 import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 
 object LavsourceServerVariables {
 
-    var lavsourceServerPort = 38082
+    var serverPort = -1
 
-    fun getUrlByPrefix(path: String) = "http://localhost:$lavsourceServerPort$path"
+    fun getUrlByPrefix(path: String) = "http://localhost:$serverPort$path"
 }
 
-class LavsourceServer(private val port: Int = LavsourceServerVariables.lavsourceServerPort) {
+class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPort) {
 
     companion object {
 
-        private val pingUrl = LavsourceServerVariables.getUrlByPrefix("/system/ping")
+        private val pingUrl by lazy {
+            LavsourceServerVariables.getUrlByPrefix("/system/ping")
+        }
 
         @Volatile
         var instance: LavsourceServer? = null
@@ -114,8 +117,8 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.lavsource
 object LavsourceServerUtils {
 
     fun initServerPorts() {
-        LavsourceServerVariables.lavsourceServerPort = HttpServerUtils.getOneAvaliablePort(
-            LavsourceServerVariables.lavsourceServerPort
+        LavsourceServerVariables.serverPort = HttpServerUtils.getOneAvaliablePort(
+            HttpServerVariables.serverPort + 1
         )
     }
 }
