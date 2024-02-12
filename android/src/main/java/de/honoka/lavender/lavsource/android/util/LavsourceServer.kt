@@ -41,14 +41,18 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
             return instance!!.checkServerRunningStatus() == null
         }
 
-        fun checkOrRestartInstance() = launchCoroutineOnIoThread {
+        fun checkOrRestartInstance() {
             instance ?: run {
                 createInstance()
-                return@launchCoroutineOnIoThread
+                return
             }
-            if(isServerRunning()) return@launchCoroutineOnIoThread
+            if(isServerRunning()) return
             instance!!.stopProcess()
             instance!!.startProcess()
+        }
+
+        fun checkOrRestartInstanceAsync() = launchCoroutineOnIoThread {
+            checkOrRestartInstance()
         }
     }
 

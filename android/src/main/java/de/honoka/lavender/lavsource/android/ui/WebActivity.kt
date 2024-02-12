@@ -102,7 +102,7 @@ class WebActivity : AppCompatActivity() {
 
     override fun onResume() {
         HttpServer.checkOrRestartInstance()
-        LavsourceServer.checkOrRestartInstance()
+        LavsourceServer.checkOrRestartInstanceAsync()
         dispatchEventToListenersInWebViewDirectly("onActivityResumeListeners")
         super.onResume()
     }

@@ -10,7 +10,7 @@ class LavsourceProvider : BaseContentProvider() {
     override fun call(args: JSON?): JSONObject = JSONObject().also {
         it["status"] = LavsourceServer.isServerRunning().also innerAlso@ { status ->
             if(status) return@innerAlso
-            LavsourceServer.checkOrRestartInstance()
+            LavsourceServer.checkOrRestartInstanceAsync()
         }
     }
 }
