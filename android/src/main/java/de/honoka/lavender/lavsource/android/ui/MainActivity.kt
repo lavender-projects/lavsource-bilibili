@@ -7,7 +7,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import de.honoka.lavender.lavsource.android.util.LavsourceServer
-import de.honoka.lavender.lavsource.android.util.LavsourceServerUtils
 import de.honoka.lavender.lavsource.bilibili.R
 import de.honoka.sdk.util.android.common.GlobalComponents
 import de.honoka.sdk.util.android.common.copyAssetsFileTo
@@ -81,8 +80,7 @@ class MainActivity : AppCompatActivity() {
                 "${application.dataDir}/lavsource-server/startup.sh"
             )
         }
-        LavsourceServerUtils.initServerPorts()
-        LavsourceServer.createInstance()
+        LavsourceServer.checkOrRestartInstance()
     }
 
     private fun jumpToWebActivty() = runOnUiThread {

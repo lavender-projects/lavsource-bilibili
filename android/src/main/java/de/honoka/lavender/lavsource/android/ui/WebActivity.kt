@@ -55,12 +55,14 @@ class WebActivity : AppCompatActivity() {
 
         private var lastTimePressBack = 0L
 
-        override fun handleOnBackPressed() = launchCoroutineOnUiThread {
-            try {
-                val result = dispatchEventToListenersInWebView("onBackButtonPressedListeners")
-                if(!result) doBack()
-            } catch(t: Throwable) {
-                doBack()
+        override fun handleOnBackPressed() {
+            launchCoroutineOnUiThread {
+                try {
+                    val result = dispatchEventToListenersInWebView("onBackButtonPressedListeners")
+                    if(!result) doBack()
+                } catch(t: Throwable) {
+                    doBack()
+                }
             }
         }
 
@@ -130,10 +132,6 @@ class WebActivity : AppCompatActivity() {
             loadUrl(this@WebActivity.url)
         }
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
-    }
-
-    fun evaluateJavascript(script: String, callback: (String) -> Unit = {}) = runOnUiThread {
-        webView.evaluateJavascript(script, callback)
     }
 
     //返回true表示有监听器的预定义行为被触发

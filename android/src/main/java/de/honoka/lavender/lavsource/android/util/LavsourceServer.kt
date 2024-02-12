@@ -1,9 +1,10 @@
 package de.honoka.lavender.lavsource.android.util
 
 import cn.hutool.http.HttpUtil
-import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONObject
+import cn.hutool.json.JSONObject
+import cn.hutool.json.JSONUtil
 import de.honoka.sdk.util.android.common.GlobalComponents
+import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
 import de.honoka.sdk.util.android.server.HttpServerUtils
 import java.io.File
 import java.net.ConnectException
@@ -20,20 +21,37 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.lavsource
 
     companion object {
 
-        lateinit var instance: LavsourceServer
+        private val pingUrl = LavsourceServerVariables.getUrlByPrefix("/system/ping")
 
-        fun createInstance() {
-            instance = LavsourceServer().apply { startProcess() }
+        @Volatile
+        var instance: LavsourceServer? = null
+
+        private fun createInstance() {
+            LavsourceServerUtils.initServerPorts()
+            instance?.let { return }
+            instance = LavsourceServer()
+            instance!!.startProcess()
         }
 
-        fun checkOrRestartInstance() {
-            //todo
+        fun isServerRunning(): Boolean {
+            instance ?: return false
+            return instance!!.checkServerRunningStatus() == null
+        }
+
+        fun checkOrRestartInstance() = launchCoroutineOnIoThread {
+            instance ?: run {
+                createInstance()
+                return@launchCoroutineOnIoThread
+            }
+            if(isServerRunning()) return@launchCoroutineOnIoThread
+            instance!!.stopProcess()
+            instance!!.startProcess()
         }
     }
 
-    var process: Process? = null
+    private var process: Process? = null
 
-    fun startProcess() {
+    private fun startProcess() {
         File("${GlobalComponents.application.dataDir}/cache/javaTemp").run {
             if(!exists()) mkdirs()
         }
@@ -46,19 +64,42 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.lavsource
         ensureServerRunning()
     }
 
+    private fun stopProcess() = process?.run {
+        if(!isAlive) return@run
+        destroy()
+        var waitSeconds = 0
+        while(isAlive && waitSeconds < 5) {
+            inputStream.readBytes()
+            TimeUnit.SECONDS.sleep(1)
+            waitSeconds += 1
+        }
+        if(isAlive) destroyForcibly()
+    }
+
+    private fun checkServerRunningStatus(): Throwable? = run {
+        try {
+            process!!
+            val res = HttpUtil.get(pingUrl, JSONObject().set("serverName", "bilibili")).let {
+                JSONUtil.parseObj(it)
+            }
+            //status可能为null
+            when(res.getBool("status")) {
+                true -> null
+                false -> Exception(res.getStr("msg"))
+                else -> Exception("Unknown")
+            }
+        } catch(t: Throwable) {
+            t
+        }
+    }
+
     private fun ensureServerRunning() {
-        val pingUrl = LavsourceServerVariables.getUrlByPrefix("/system/ping")
         var connectException: ConnectException? = null
         for(i in 1..20) {
             try {
-                val res = HttpUtil.get(pingUrl, JSONObject().fluentPut("serverName", "bilibili")).let {
-                    JSON.parseObject(it)
-                }
-                //status可能为null
-                when(res.getBoolean("status")) {
-                    true -> return
-                    false -> throw Exception(res.getString("msg"))
-                    else -> {}
+                checkServerRunningStatus().let {
+                    it ?: return
+                    throw it
                 }
             } catch(t: Throwable) {
                 if(t.cause !is ConnectException) throw t
@@ -74,7 +115,7 @@ object LavsourceServerUtils {
 
     fun initServerPorts() {
         LavsourceServerVariables.lavsourceServerPort = HttpServerUtils.getOneAvaliablePort(
-            LavsourceServerVariables.lavsourceServerPort + 1
+            LavsourceServerVariables.lavsourceServerPort
         )
     }
 }
