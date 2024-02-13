@@ -18,7 +18,7 @@ object LavsourceServerVariables {
     fun getUrlByPrefix(path: String) = "http://localhost:$serverPort$path"
 }
 
-class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPort) {
+class LavsourceServer {
 
     companion object {
 
@@ -56,7 +56,8 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
             }
             if(initializing || isServerRunning()) return
             instance!!.stopProcess()
-            instance!!.startProcess()
+            instance = null
+            createInstance()
         }
 
         fun checkOrRestartInstanceAsync() = launchCoroutineOnIoThread {
@@ -71,7 +72,8 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
             if(!exists()) mkdirs()
         }
         process = ProcessBuilder(
-            "sh", "${GlobalComponents.application.dataDir}/lavsource-server/startup.sh", port.toString()
+            "sh", "${GlobalComponents.application.dataDir}/lavsource-server/startup.sh",
+            LavsourceServerVariables.serverPort.toString()
         ).apply {
             redirectOutput(File("${GlobalComponents.application.dataDir}/lavsource-server/process.log"))
             redirectErrorStream(true)
