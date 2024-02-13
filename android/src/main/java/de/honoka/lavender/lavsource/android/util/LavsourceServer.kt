@@ -29,11 +29,19 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
         @Volatile
         var instance: LavsourceServer? = null
 
+        @Volatile
+        var initializing: Boolean = false
+
         private fun createInstance() {
-            LavsourceServerUtils.initServerPorts()
             instance?.let { return }
-            instance = LavsourceServer()
+            synchronized(this) {
+                instance?.let { return }
+                instance = LavsourceServer()
+                initializing = true
+            }
+            LavsourceServerUtils.initServerPorts()
             instance!!.startProcess()
+            initializing = false
         }
 
         fun isServerRunning(): Boolean {
@@ -46,7 +54,7 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
                 createInstance()
                 return
             }
-            if(isServerRunning()) return
+            if(initializing || isServerRunning()) return
             instance!!.stopProcess()
             instance!!.startProcess()
         }
@@ -86,7 +94,8 @@ class LavsourceServer(private val port: Int = LavsourceServerVariables.serverPor
     private fun checkServerRunningStatus(): Throwable? = run {
         try {
             process!!
-            val res = HttpUtil.get(pingUrl, JSONObject().set("serverName", "bilibili")).let {
+            val requestParams = JSONObject().set("serverName", "bilibili")
+            val res = HttpUtil.get(pingUrl, requestParams, 1000).let {
                 JSONUtil.parseObj(it)
             }
             //status可能为null

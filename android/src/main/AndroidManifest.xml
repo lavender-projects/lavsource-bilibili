@@ -5,33 +5,31 @@
     <!-- 必须设置 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/lavsource_bilibili"
-        android:label="@string/app_name"
-        android:roundIcon="@drawable/lavsource_bilibili"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.LavSourceApp"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="31">
-        <activity
-            android:name="de.honoka.lavender.lavsource.android.ui.MainActivity"
-            android:exported="true">
+    <!-- 必须设置usesCleartextTraffic，否则不能加载http -->
+    <application android:allowBackup="true"
+                 android:dataExtractionRules="@xml/data_extraction_rules"
+                 android:fullBackupContent="@xml/backup_rules"
+                 android:icon="@drawable/lavsource_bilibili"
+                 android:label="@string/app_name"
+                 android:roundIcon="@drawable/lavsource_bilibili"
+                 android:supportsRtl="true"
+                 android:theme="@style/Theme.LavSourceApp"
+                 android:usesCleartextTraffic="true"
+                 tools:targetApi="31">
+        <activity android:name="de.honoka.lavender.lavsource.android.ui.MainActivity"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="de.honoka.lavender.lavsource.android.ui.WebActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false" />
-        <provider
-            android:name="de.honoka.lavender.lavsource.android.provider.LavsourceProvider"
-            android:authorities="de.honoka.lavender.lavsource.bilibili.provider.LavsourceProvider"
-            android:enabled="true"
-            android:exported="true" />
+        <activity android:name="de.honoka.lavender.lavsource.android.ui.WebActivity"
+                  android:configChanges="orientation|screenSize"
+                  android:exported="false" />
+        <provider android:name="de.honoka.lavender.lavsource.android.provider.LavsourceProvider"
+                  android:authorities="de.honoka.lavender.lavsource.bilibili.provider.LavsourceProvider"
+                  android:enabled="true"
+                  android:exported="true"
+                  tools:ignore="ExportedContentProvider" />
     </application>
 </manifest>
