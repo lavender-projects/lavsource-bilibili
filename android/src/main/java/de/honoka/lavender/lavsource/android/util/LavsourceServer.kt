@@ -15,7 +15,9 @@ object LavsourceServerVariables {
 
     var serverPort = -1
 
-    fun getUrlByPrefix(path: String) = "http://localhost:$serverPort$path"
+    fun getUrlByPrefix(path: String) = run {
+        if(serverPort != -1) "http://localhost:$serverPort$path" else null
+    }
 }
 
 class LavsourceServer {
