@@ -43,7 +43,7 @@ class VideoServiceImpl(
         return result
     }
 
-    override fun getVideoDetail(id: String): VideoDetails {
+    override fun getVideoDetails(id: String): VideoDetails {
         val url = "https://api.bilibili.com/x/web-interface/view/detail?bvid=$id"
         val json = BilibiliUtils.requestForJsonObject(url)
         val result = VideoDetails().apply {

@@ -1,10 +1,13 @@
 package de.honoka.lavender.lavsource.android.util
 
+import android.os.Build
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
 import cn.hutool.json.JSONUtil
 import de.honoka.sdk.util.android.common.GlobalComponents
+import de.honoka.sdk.util.android.common.copyAssetsFileTo
 import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
+import de.honoka.sdk.util.android.common.runShellCommandForResult
 import de.honoka.sdk.util.android.server.HttpServerUtils
 import de.honoka.sdk.util.android.server.HttpServerVariables
 import java.io.File
@@ -132,6 +135,47 @@ class LavsourceServer {
 }
 
 object LavsourceServerUtils {
+
+    /**
+     * Termux环境和后端服务相关文件是否已初始化（由其他类维护此变量的值）
+     */
+    @Volatile
+    var allEnvironmentsInitialized = false
+
+    @Synchronized
+    fun initTermuxEnvironment() {
+        if(File("${GlobalComponents.application.dataDir}/termux").exists()) return
+        var cpuArchitecture = Build.SUPPORTED_64_BIT_ABIS.run {
+            if(isEmpty()) null else Build.SUPPORTED_64_BIT_ABIS[0].lowercase()
+        }
+        cpuArchitecture = when(cpuArchitecture) {
+            "aarch64", "arm64", "arm64-v8a" -> "arm64"
+            "x86_64", "x64", "amd64" -> "x64"
+            else -> throw Exception("不支持的CPU架构")
+        }
+        copyAssetsFileTo(
+            "termux/termux-env-openjdk17-${cpuArchitecture}.zip",
+            "${GlobalComponents.application.dataDir}/termux-env-openjdk17.zip"
+        )
+        runShellCommandForResult("unzip ${GlobalComponents.application.dataDir}/termux-env-openjdk17.zip " +
+            "-d ${GlobalComponents.application.dataDir}")
+    }
+
+    @Synchronized
+    fun initLavsourceServer() {
+        File("${GlobalComponents.application.dataDir}/lavsource-server/lavsource-server.jar").run {
+            if(exists()) return@run
+            copyAssetsFileTo(
+                "lavsource-server/lavsource-server.jar",
+                absolutePath
+            )
+            copyAssetsFileTo(
+                "lavsource-server/startup.sh",
+                "${GlobalComponents.application.dataDir}/lavsource-server/startup.sh"
+            )
+        }
+        LavsourceServer.checkOrRestartInstance()
+    }
 
     fun initServerPorts() {
         LavsourceServerVariables.serverPort = HttpServerUtils.getOneAvaliablePort(

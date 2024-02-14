@@ -3,6 +3,7 @@ package de.honoka.lavender.lavsource.android.provider
 import cn.hutool.json.JSON
 import cn.hutool.json.JSONObject
 import de.honoka.lavender.lavsource.android.util.LavsourceServer
+import de.honoka.lavender.lavsource.android.util.LavsourceServerUtils
 import de.honoka.lavender.lavsource.android.util.LavsourceServerVariables
 import de.honoka.sdk.util.android.common.BaseContentProvider
 
@@ -16,8 +17,10 @@ class LavsourceProvider : BaseContentProvider() {
 
     private fun statusCheck() = JSONObject().also {
         it["status"] = LavsourceServer.isServerRunning().also innerAlso@ { status ->
-            if(status) return@innerAlso
-            LavsourceServer.checkOrRestartInstanceAsync()
+            if(status && LavsourceServerUtils.allEnvironmentsInitialized) return@innerAlso
+            LavsourceServerUtils.initTermuxEnvironment()
+            LavsourceServerUtils.initLavsourceServer()
+            LavsourceServerUtils.allEnvironmentsInitialized = true
         }
     }
 }

@@ -7,4 +7,5 @@ cd $APP_DATA_DIR/lavsource-server
 linker64 $PREFIX/opt/openjdk/bin/java -jar \
   -Djava.io.tmpdir=../cache/javaTemp \
   -Dserver.port=$1 \
+  -Dspring.profiles.active=prod \
   ./lavsource-server.jar
