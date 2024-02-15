@@ -24,7 +24,11 @@ class VideoServiceImpl(
 ) : VideoService {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
-        val url = "https://api.bilibili.com/x/web-interface/index/top/rcmd"
+        val url = if(BilibiliUtils.isLogined()) {
+            "https://api.bilibili.com/x/web-interface/index/top/rcmd"
+        } else {
+            "https://api.bilibili.com/x/web-interface/wbi/index/top/feed/rcmd"
+        }
         val json = BilibiliUtils.requestForJsonObject(url)
         val result = ArrayList<RecommendedVideoItem>()
         json.getByPath("data.item", JSONArray::class.java).forEach {

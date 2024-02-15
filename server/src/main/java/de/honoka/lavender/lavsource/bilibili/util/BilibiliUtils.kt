@@ -3,6 +3,7 @@ package de.honoka.lavender.lavsource.bilibili.util
 import cn.hutool.core.codec.Base64
 import cn.hutool.core.io.FileUtil
 import cn.hutool.core.io.IoUtil
+import cn.hutool.http.Header
 import cn.hutool.http.HttpRequest
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
@@ -84,6 +85,8 @@ object BilibiliUtils {
         return execute()
     }
 
+    fun isLogined(): Boolean = cookies.containsKey("SESSDATA")
+
     fun danmakuTypeToString(type: Int): String = when(type) {
         1, 2, 3 -> "scroll"
         4 -> "bottom"
@@ -96,6 +99,8 @@ object BilibiliUtils {
             "get" -> HttpUtil.createGet(url)
             "post" -> HttpUtil.createPost(url)
             else -> throw Exception("未知的请求方式")
+        }.apply {
+            header(Header.REFERER, "https://www.bilibili.com/")
         }
         val response = if(withCookies) {
             request.executeWithBiliCookies()

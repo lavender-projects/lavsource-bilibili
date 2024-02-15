@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import de.honoka.gradle.buildsrc.Versions
 
 plugins {
     val versions = de.honoka.gradle.buildsrc.Versions.App
@@ -32,11 +33,11 @@ android {
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = sourceCompatibility
     }
     
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = compileOptions.sourceCompatibility.toString()
     }
 }
 
@@ -45,7 +46,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation("de.honoka.sdk:honoka-android-utils:1.0.3-dev")
+    implementation("de.honoka.sdk:honoka-android-utils:${Versions.App.honokaAndroidUtils}")
     implementation("cn.hutool:hutool-all:5.8.18")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     testImplementation("junit:junit:4.13.2")

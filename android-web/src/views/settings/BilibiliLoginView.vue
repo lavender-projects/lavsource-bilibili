@@ -129,7 +129,11 @@ function onSubmit() {
     ...form,
     ...validationData
   }).then(res => {
-    if(res.status !== true) return
+    if(res.status !== true) {
+      //noinspection JSUnresolvedReference
+      messageUtils.error(res.msg)
+      return
+    }
     router.push('/settings')
   }).catch(() => {
     validateCodeDom.value.innerHTML = ''
