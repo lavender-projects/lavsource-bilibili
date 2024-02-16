@@ -19,9 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Service
-class VideoServiceImpl(
-    private val bilibiliService: BilibiliService
-) : VideoService {
+class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoService {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
         val url = if(BilibiliUtils.isLogined()) {

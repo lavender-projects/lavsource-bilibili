@@ -6,6 +6,7 @@ import de.honoka.lavender.lavsource.android.util.LavsourceServer
 import de.honoka.lavender.lavsource.android.util.LavsourceServerUtils
 import de.honoka.lavender.lavsource.android.util.LavsourceServerVariables
 import de.honoka.sdk.util.android.common.BaseContentProvider
+import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
 
 class LavsourceProvider : BaseContentProvider() {
 
@@ -18,9 +19,11 @@ class LavsourceProvider : BaseContentProvider() {
     private fun statusCheck() = JSONObject().also {
         it["status"] = LavsourceServer.isServerRunning().also innerAlso@ { status ->
             if(status && LavsourceServerUtils.allEnvironmentsInitialized) return@innerAlso
-            LavsourceServerUtils.initTermuxEnvironment()
-            LavsourceServerUtils.initLavsourceServer()
-            LavsourceServerUtils.allEnvironmentsInitialized = true
+            launchCoroutineOnIoThread {
+                LavsourceServerUtils.initTermuxEnvironment()
+                LavsourceServerUtils.initLavsourceServer()
+                LavsourceServerUtils.allEnvironmentsInitialized = true
+            }
         }
     }
 }

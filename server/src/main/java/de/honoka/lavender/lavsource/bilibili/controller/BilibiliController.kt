@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse
 
 @RequestMapping("/platform/bilibili")
 @RestController
-class BilibiliController(
-    private val bilibiliService: BilibiliService
-) {
+class BilibiliController(private val bilibiliService: BilibiliService) {
 
     @GetMapping("/validateCode")
     fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getValidateCode())

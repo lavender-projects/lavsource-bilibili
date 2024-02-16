@@ -18,9 +18,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @Service
-class BilibiliService(
-    private val propertiesHolder: PropertiesHolder
-) {
+class BilibiliService(private val propertiesHolder: PropertiesHolder) {
 
     fun getValidateCode(): JSONObject {
         val url = "https://passport.bilibili.com/x/passport-login/captcha?source=main_web"
