@@ -51,7 +51,7 @@ class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoServ
         val result = VideoDetails().apply {
             this.id = id
             uploader.run {
-                this.id = json.getByPath("data.View.owner.mid", Long::class.java)
+                this.id = json.getByPath("data.View.owner.mid", Long::class.java).toString()
                 val userCardUrl = "https://api.bilibili.com/x/web-interface/card?mid=${this.id}"
                 val userCardJson = BilibiliUtils.requestForJsonObject(userCardUrl)
                 name = json.getByPath("data.View.owner.name") as String
@@ -145,7 +145,7 @@ class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoServ
         json.getJSONArray("data").forEach {
             it as JSONObject
             episodeList.add(VideoEpisodeInfo().apply {
-                id = it.getLong("cid")
+                id = it.getLong("cid").toString()
                 name = it.getStr("part")
             })
         }
@@ -170,7 +170,7 @@ class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoServ
             if(addedQualityId.contains(qualityId)) return@forEachIndexed
             result.add(VideoStreamInfo().apply {
                 type = "dash"
-                this.qualityId = qualityId.toInt()
+                this.qualityId = qualityId.toInt().toString()
                 qualityName = qualityIdNameMap[qualityId]
                 videoStreamUrl = bilibiliService.getProxiedMediaStreamUrl(it.getStr("base_url"))
                 var audioIndex = i - videoIndeoList.size + audioInfoList.size
@@ -205,7 +205,7 @@ class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoServ
                     type = BilibiliUtils.danmakuTypeToString(danmakuAttrs[1].toInt())
                     fontSize = danmakuAttrs[2].toInt()
                     colorRgb = "#${String.format("%06x", danmakuAttrs[3].toInt())}"
-                    senderIdHash = danmakuAttrs[6]
+                    senderId = danmakuAttrs[6]
                 })
             }
         }

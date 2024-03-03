@@ -83,9 +83,9 @@ class BilibiliService(private val propertiesHolder: PropertiesHolder) {
     }
 
     fun parseComment(json: JSONObject): Comment = Comment().apply {
-        id = json.getLong("rpid")
+        id = json.getLong("rpid").toString()
         sender = UserInfo().apply {
-            id = json.getByPath("member.mid", String::class.java).toLong()
+            id = json.getByPath("member.mid", String::class.java).toLong().toString()
             name = json.getByPath("member.uname") as String
             avatar = json.getByPath("member.avatar", String::class.java).run {
                 getProxiedImageUrl(this)
