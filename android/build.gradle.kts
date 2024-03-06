@@ -2,6 +2,7 @@ import android.annotation.SuppressLint
 import de.honoka.gradle.buildsrc.Versions
 
 plugins {
+    @Suppress("RemoveRedundantQualifierName")
     val versions = de.honoka.gradle.buildsrc.Versions.App
     //plugins
     id("com.android.application") version versions.android
@@ -19,7 +20,6 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0.0-dev"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,6 +29,13 @@ android {
             @Suppress("UnstableApiUsage")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+    }
+
+    packaging {
+        resources.excludes.addAll(listOf(
+            "META-INF/INDEX.LIST",
+            "META-INF/io.netty.versions.properties"
+        ))
     }
 
     compileOptions {
@@ -46,6 +53,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("de.honoka.lavender:lavender-api:${Versions.App.lavenderApi}")
     implementation("de.honoka.sdk:honoka-android-utils:${Versions.App.honokaAndroidUtils}")
     implementation("cn.hutool:hutool-all:5.8.18")
     implementation("org.nanohttpd:nanohttpd:2.3.1")

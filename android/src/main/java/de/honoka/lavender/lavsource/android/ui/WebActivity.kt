@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import de.honoka.lavender.lavsource.android.util.JsInterfaceContainerFactory
-import de.honoka.lavender.lavsource.android.util.LavsourceServer
 import de.honoka.lavender.lavsource.bilibili.R
 import de.honoka.sdk.util.android.common.launchCoroutineOnUiThread
 import de.honoka.sdk.util.android.jsinterface.JavascriptInterfaceContainer
@@ -102,7 +101,6 @@ class WebActivity : AppCompatActivity() {
 
     override fun onResume() {
         HttpServer.checkOrRestartInstance()
-        LavsourceServer.checkOrRestartInstanceAsync()
         dispatchEventToListenersInWebViewDirectly("onActivityResumeListeners")
         super.onResume()
     }

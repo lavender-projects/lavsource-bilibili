@@ -26,6 +26,7 @@
         <activity android:name="de.honoka.lavender.lavsource.android.ui.WebActivity"
                   android:configChanges="orientation|screenSize"
                   android:exported="false" />
+        <!-- authorities的值必须为：[应用包名].provider.LavsourceProvider -->
         <provider android:name="de.honoka.lavender.lavsource.android.provider.LavsourceProvider"
                   android:authorities="de.honoka.lavender.lavsource.bilibili.provider.LavsourceProvider"
                   android:enabled="true"

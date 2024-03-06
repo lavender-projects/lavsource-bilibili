@@ -1,29 +1,51 @@
 package de.honoka.lavender.lavsource.android.provider
 
 import cn.hutool.json.JSON
+import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
-import de.honoka.lavender.lavsource.android.util.LavsourceServer
-import de.honoka.lavender.lavsource.android.util.LavsourceServerUtils
-import de.honoka.lavender.lavsource.android.util.LavsourceServerVariables
+import de.honoka.lavender.lavsource.android.business.BasicBusiness
+import de.honoka.lavender.lavsource.android.business.VideoBusinessImpl
 import de.honoka.sdk.util.android.common.BaseContentProvider
-import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
+import de.honoka.sdk.util.android.common.toMethodArgs
+import java.lang.reflect.Method
 
 class LavsourceProvider : BaseContentProvider() {
 
-    override fun call(method: String?, args: JSON?): Any? = when(method) {
-        null -> statusCheck()
-        "getBaseUrl" -> LavsourceServerVariables.getUrlByPrefix("")
-        else -> null
-    }
+    companion object {
 
-    private fun statusCheck() = JSONObject().also {
-        it["status"] = LavsourceServer.isServerRunning().also innerAlso@ { status ->
-            if(status && LavsourceServerUtils.allEnvironmentsInitialized) return@innerAlso
-            launchCoroutineOnIoThread {
-                LavsourceServerUtils.initTermuxEnvironment()
-                LavsourceServerUtils.initLavsourceServer()
-                LavsourceServerUtils.allEnvironmentsInitialized = true
+        private val businessList: List<Any> = listOf(
+            BasicBusiness(),
+            VideoBusinessImpl()
+        )
+
+        private val businessMap = HashMap<String, Any>().also { map ->
+            businessList.forEach {
+                map[it.javaClass.simpleName] = it
             }
         }
     }
+
+    override fun call(method: String?, args: JSON?): Any? {
+        args as JSONObject
+        val request = args.toBean(LavsourceProviderRequest::class.java)
+        val business = businessMap[request.className].also {
+            it ?: throw Exception("Unknown class name: ${request.className}")
+        }
+        val methodObj: Method = business!!.javaClass.declaredMethods.run {
+            forEach {
+                if(it.name == request.method) return@run it
+            }
+            throw Exception("Unknown method name \"${request.method}\" of class: ${request.className}")
+        }
+        return methodObj.invoke(business, *request.args!!.toMethodArgs(methodObj))
+    }
 }
+
+data class LavsourceProviderRequest(
+
+    var className: String? = null,
+
+    var method: String? = null,
+
+    var args: JSONArray? = null
+)

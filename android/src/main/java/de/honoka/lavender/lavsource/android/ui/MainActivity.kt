@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import de.honoka.lavender.lavsource.android.util.LavsourceServerUtils
 import de.honoka.lavender.lavsource.bilibili.R
 import de.honoka.sdk.util.android.common.GlobalComponents
 import de.honoka.sdk.util.android.server.HttpServer
@@ -42,11 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initApplication() {
         GlobalComponents.application = application
-        HttpServer.createInstance()
-        if(LavsourceServerUtils.allEnvironmentsInitialized) return
-        LavsourceServerUtils.initTermuxEnvironment()
-        LavsourceServerUtils.initLavsourceServer()
-        LavsourceServerUtils.allEnvironmentsInitialized = true
+        HttpServer.checkOrRestartInstance()
     }
 
     private fun jumpToWebActivty() = runOnUiThread {

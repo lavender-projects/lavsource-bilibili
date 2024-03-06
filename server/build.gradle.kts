@@ -1,5 +1,6 @@
 import de.honoka.gradle.buildsrc.Versions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.nio.charset.StandardCharsets
 
 plugins {
     //plugins块中不会读取import语句中导入的类
@@ -20,7 +21,7 @@ version = "1.0.0-dev"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = sourceCompatibility
 }
 
 dependencies {
@@ -41,11 +42,11 @@ dependencies {
 
 tasks {
     compileJava {
-        options.encoding = "UTF-8"
+        options.encoding = StandardCharsets.UTF_8.name()
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
+        kotlinOptions.jvmTarget = java.sourceCompatibility.toString()
     }
 
     bootJar {
