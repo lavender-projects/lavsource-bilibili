@@ -6,20 +6,20 @@ import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONNull
 import cn.hutool.json.JSONObject
+import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.api.data.*
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
 import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils
 import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.addBiliCookies
 import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.executeWithBiliCookies
-import de.honoka.lavender.lavsource.starter.service.VideoService
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Service
-class VideoServiceImpl(private val bilibiliService: BilibiliService) : VideoService {
+class VideoBusinessImpl(private val bilibiliService: BilibiliService) : VideoBusiness {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
         val url = if(BilibiliUtils.isLogined()) {
