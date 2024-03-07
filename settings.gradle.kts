@@ -22,6 +22,5 @@ pluginManagement {
 
 rootProject.name = "lavsource-bilibili"
 
-include(":server")
 include(":android")
 include(":android-web")
