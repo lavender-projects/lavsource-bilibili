@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.bilibili.data
+package de.honoka.lavender.lavsource.android.data
 
 data class BilibiliLoginParams(
 

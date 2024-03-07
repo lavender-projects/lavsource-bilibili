@@ -1,10 +1,10 @@
 package de.honoka.lavender.lavsource.android.provider
 
 import cn.hutool.json.JSON
-import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
+import de.honoka.lavender.api.android.LavsourceProviderRequest
 import de.honoka.lavender.lavsource.android.business.BasicBusiness
-import de.honoka.lavender.lavsource.android.business.VideoBusinessImpl
+import de.honoka.lavender.lavsource.android.business.VideoBusiness
 import de.honoka.sdk.util.android.common.BaseContentProvider
 import de.honoka.sdk.util.android.common.toMethodArgs
 import java.lang.reflect.Method
@@ -15,7 +15,7 @@ class LavsourceProvider : BaseContentProvider() {
 
         private val businessList: List<Any> = listOf(
             BasicBusiness(),
-            VideoBusinessImpl()
+            VideoBusiness()
         )
 
         private val businessMap = HashMap<String, Any>().also { map ->
@@ -37,15 +37,6 @@ class LavsourceProvider : BaseContentProvider() {
             }
             throw Exception("Unknown method name \"${request.method}\" of class: ${request.className}")
         }
-        return methodObj.invoke(business, *request.args!!.toMethodArgs(methodObj))
+        return methodObj.invoke(business, *request.args.toMethodArgs(methodObj))
     }
 }
-
-data class LavsourceProviderRequest(
-
-    var className: String? = null,
-
-    var method: String? = null,
-
-    var args: JSONArray? = null
-)

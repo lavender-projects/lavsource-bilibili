@@ -8,9 +8,9 @@ import de.honoka.lavender.api.data.Comment
 import de.honoka.lavender.api.data.UserInfo
 import de.honoka.lavender.api.util.toDateOrTimeDistanceString
 import de.honoka.lavender.api.util.toStringWithUnit
+import de.honoka.lavender.lavsource.android.data.BilibiliLoginParams
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeAndSaveBiliCookies
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.saveBiliCookies
-import de.honoka.lavender.lavsource.bilibili.data.BilibiliLoginParams
 import de.honoka.sdk.util.android.server.HttpServerVariables
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets

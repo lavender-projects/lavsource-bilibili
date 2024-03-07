@@ -2,9 +2,9 @@ package de.honoka.lavender.lavsource.android.controller
 
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONUtil
+import de.honoka.lavender.lavsource.android.data.BilibiliLoginParams
 import de.honoka.lavender.lavsource.android.util.BilibiliBusinessUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeWithBiliCookies
-import de.honoka.lavender.lavsource.bilibili.data.BilibiliLoginParams
 import de.honoka.sdk.util.android.server.KtorCodeUtils
 import de.honoka.sdk.util.android.server.respondJson
 import de.honoka.sdk.util.framework.web.ApiResponse
