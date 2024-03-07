@@ -6,7 +6,7 @@ import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONNull
 import cn.hutool.json.JSONObject
-import de.honoka.lavender.api.business.AbstractVideoBusiness
+import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.api.data.*
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
@@ -18,7 +18,7 @@ import io.ktor.http.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class VideoBusiness : AbstractVideoBusiness {
+class VideoBusinessImpl : VideoBusiness {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
         val url = if(BilibiliUtils.isLogined()) {
