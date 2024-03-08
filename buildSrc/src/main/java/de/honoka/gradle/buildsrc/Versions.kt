@@ -12,7 +12,5 @@ object Versions {
         const val kotlin = "1.8.0"
 
         const val lavsourceAppSdk = "1.0.0-dev"
-
-        const val honokaAndroidUtils = "1.1.0-dev"
     }
 }

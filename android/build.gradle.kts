@@ -54,7 +54,6 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("de.honoka.lavender:lavsource-app-sdk:${Versions.App.lavsourceAppSdk}")
-    implementation("de.honoka.sdk:honoka-android-utils:${Versions.App.honokaAndroidUtils}")
     implementation("cn.hutool:hutool-all:5.8.18")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     testImplementation("junit:junit:4.13.2")
