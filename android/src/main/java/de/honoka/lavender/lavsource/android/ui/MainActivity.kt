@@ -2,11 +2,11 @@ package de.honoka.lavender.lavsource.android.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import de.honoka.lavender.lavsource.android.controller.bilibiliController
+import de.honoka.lavender.lavsource.android.util.initHttpServer
 import de.honoka.lavender.lavsource.bilibili.R
 import de.honoka.sdk.util.android.common.GlobalComponents
 import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
-import de.honoka.sdk.util.android.server.HttpServer
+import de.honoka.sdk.util.android.server.HttpServerUtils
 import de.honoka.sdk.util.android.ui.fullScreenToShow
 import de.honoka.sdk.util.android.ui.jumpToWebActivty
 
@@ -25,13 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initApplication() {
         GlobalComponents.application = application
-        initHttpServer()
-    }
-
-    private fun initHttpServer() {
-        HttpServer.customRoutingList = listOf(
-            bilibiliController
-        )
-        HttpServer.checkOrRestartInstance()
+        HttpServerUtils.initHttpServer()
     }
 }
