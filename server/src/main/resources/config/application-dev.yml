@@ -1,0 +1,4 @@
+spring:
+  config:
+    # 可在文件中设置LavsourceStarterProperties中的参数
+    import: application-localDev.yml

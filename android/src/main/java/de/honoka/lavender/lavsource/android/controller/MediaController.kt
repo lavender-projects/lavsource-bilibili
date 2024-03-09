@@ -3,8 +3,8 @@ package de.honoka.lavender.lavsource.android.controller
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import de.honoka.lavender.android.lavsource.sdk.controller.AbstractMediaController
-import de.honoka.lavender.lavsource.android.business.VideoBusinessImpl
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.lavender.lavsource.bilibili.business.business.VideoBusinessImpl
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeWithBiliCookies
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

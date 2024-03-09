@@ -24,3 +24,5 @@ rootProject.name = "lavsource-bilibili"
 
 include(":android")
 include(":android-web")
+include(":server")
+include(":business")

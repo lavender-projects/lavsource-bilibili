@@ -1,19 +1,20 @@
-package de.honoka.lavender.lavsource.android.business
+package de.honoka.lavender.lavsource.bilibili.business.business
 
 import cn.hutool.core.bean.BeanUtil
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
 import cn.hutool.json.JSONUtil
-import de.honoka.lavender.android.lavsource.sdk.util.LavsourceUtils
 import de.honoka.lavender.api.data.Comment
 import de.honoka.lavender.api.data.UserInfo
+import de.honoka.lavender.api.util.LavsourceUtils
 import de.honoka.lavender.api.util.toDateOrTimeDistanceString
 import de.honoka.lavender.api.util.toStringWithUnit
-import de.honoka.lavender.lavsource.android.data.BilibiliLoginParams
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeAndSaveBiliCookies
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils.saveBiliCookies
+import de.honoka.lavender.lavsource.bilibili.business.data.BilibiliLoginParams
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeAndSaveBiliCookies
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.saveBiliCookies
 
+@Suppress("MemberVisibilityCanBePrivate")
 object BilibiliBusiness {
 
     fun getValidateCode(): JSONObject {

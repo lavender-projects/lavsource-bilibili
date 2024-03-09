@@ -1,20 +1,18 @@
-package de.honoka.lavender.lavsource.android.business
+package de.honoka.lavender.lavsource.bilibili.business.business
 
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONNull
 import cn.hutool.json.JSONObject
-import de.honoka.lavender.android.lavsource.sdk.util.LavsourceUtils
 import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.api.data.*
+import de.honoka.lavender.api.util.LavsourceUtils
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils.addBiliCookies
-import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeWithBiliCookies
-import de.honoka.sdk.util.android.ui.XmlUtils
-import io.ktor.http.*
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.sdk.util.kotlin.text.XmlUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -184,9 +182,9 @@ object VideoBusinessImpl : VideoBusiness {
     }
 
     override fun getVideoStreamResponse(url: String, range: String?): HttpResponse = HttpUtil.createGet(url).run {
-        header(HttpHeaders.Referrer, "https://www.bilibili.com/")
-        header(HttpHeaders.Range, range ?: "bytes=0-")
-        addBiliCookies()
+        //header(HttpHeaders.Referrer, "https://www.bilibili.com/")
+        //header(HttpHeaders.Range, range ?: "bytes=0-")
+        //addBiliCookies()
         executeAsync()
     }
 

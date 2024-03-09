@@ -1,8 +1,8 @@
 package de.honoka.lavender.lavsource.android.controller
 
 import cn.hutool.json.JSONUtil
-import de.honoka.lavender.lavsource.android.business.BilibiliBusiness
-import de.honoka.lavender.lavsource.android.data.BilibiliLoginParams
+import de.honoka.lavender.lavsource.bilibili.business.business.BilibiliBusiness
+import de.honoka.lavender.lavsource.bilibili.business.data.BilibiliLoginParams
 import de.honoka.sdk.util.android.server.KtorCodeUtils
 import de.honoka.sdk.util.android.server.respondJson
 import de.honoka.sdk.util.framework.web.ApiResponse
