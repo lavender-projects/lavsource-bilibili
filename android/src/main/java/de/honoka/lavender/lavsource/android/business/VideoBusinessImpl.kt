@@ -1,6 +1,5 @@
 package de.honoka.lavender.lavsource.android.business
 
-import cn.hutool.core.util.XmlUtil
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
@@ -14,6 +13,7 @@ import de.honoka.lavender.lavsource.android.util.BilibiliBusinessUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.addBiliCookies
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.sdk.util.android.ui.XmlUtils
 import io.ktor.http.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -124,7 +124,7 @@ class VideoBusinessImpl : VideoBusiness {
         return result
     }
 
-    override fun getCommentReplyList(videoId: String, commentId: Long, page: Int): CommentList {
+    override fun getCommentReplyList(videoId: String, commentId: String, page: Int): CommentList {
         val avId = BilibiliUtils.bvIdToAvId(videoId)
         val url = "https://api.bilibili.com/x/v2/reply/reply?oid=$avId&type=1&root=$commentId&pn=$page"
         val json = BilibiliUtils.requestForJsonObject(url)
@@ -151,7 +151,7 @@ class VideoBusinessImpl : VideoBusiness {
         return episodeList
     }
 
-    override fun getStreamUrlList(videoId: String, episodeId: Long): List<VideoStreamInfo> {
+    override fun getStreamUrlList(videoId: String, episodeId: String): List<VideoStreamInfo> {
         val urlToGetStreamUrl = "https://api.bilibili.com/x/player/wbi/playurl?bvid=$videoId&cid=$episodeId&fnval=16"
         val json = BilibiliUtils.requestForJsonObject(urlToGetStreamUrl)
         val qualityIdNameMap = HashMap<String, String>().apply {
@@ -190,23 +190,20 @@ class VideoBusinessImpl : VideoBusiness {
         executeAsync()
     }
 
-    override fun getDanmakuList(episodeId: Long): List<DanmakuInfo> {
+    override fun getDanmakuList(episodeId: String): List<DanmakuInfo> {
         val url = "https://api.bilibili.com/x/v1/dm/list.so?oid=$episodeId"
-        val xml = XmlUtil.readXML(HttpUtil.createGet(url).executeWithBiliCookies().body())
+        val xml = XmlUtils.read(HttpUtil.createGet(url).executeWithBiliCookies().body())
         val result = ArrayList<DanmakuInfo>()
-        xml.getElementsByTagName("d").let {
-            for(i in 0 until it.length) {
-                val danmakuDom = it.item(i)
-                val danmakuAttrs = danmakuDom.attributes.getNamedItem("p").textContent.split(",")
-                result.add(DanmakuInfo().apply {
-                    content = danmakuDom.textContent
-                    time = danmakuAttrs[0].toDouble()
-                    type = BilibiliUtils.danmakuTypeToString(danmakuAttrs[1].toInt())
-                    fontSize = danmakuAttrs[2].toInt()
-                    colorRgb = "#${String.format("%06x", danmakuAttrs[3].toInt())}"
-                    senderId = danmakuAttrs[6]
-                })
-            }
+        xml.rootElement.elements("d").forEach {
+            val danmakuAttrs = it.attribute("p").value.split(",")
+            result.add(DanmakuInfo().apply {
+                content = it.text
+                time = danmakuAttrs[0].toDouble()
+                type = BilibiliUtils.danmakuTypeToString(danmakuAttrs[1].toInt())
+                fontSize = danmakuAttrs[2].toInt()
+                colorRgb = "#${String.format("%06x", danmakuAttrs[3].toInt())}"
+                senderId = danmakuAttrs[6]
+            })
         }
         result.sortWith { o1, o2 -> o1.time!!.compareTo(o2.time!!) }
         return result
