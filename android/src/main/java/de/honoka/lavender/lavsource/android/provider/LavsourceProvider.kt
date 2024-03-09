@@ -13,7 +13,7 @@ class LavsourceProvider : AbstractLavsourceProvider() {
     }
 
     override fun newBusinessList(): List<Any> = listOf(
-        BasicBusinessImpl(),
-        VideoBusinessImpl()
+        BasicBusinessImpl,
+        VideoBusinessImpl
     )
 }

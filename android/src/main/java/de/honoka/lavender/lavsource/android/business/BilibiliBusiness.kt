@@ -1,21 +1,20 @@
-package de.honoka.lavender.lavsource.android.util
+package de.honoka.lavender.lavsource.android.business
 
 import cn.hutool.core.bean.BeanUtil
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
 import cn.hutool.json.JSONUtil
+import de.honoka.lavender.android.lavsource.sdk.util.LavsourceUtils
 import de.honoka.lavender.api.data.Comment
 import de.honoka.lavender.api.data.UserInfo
 import de.honoka.lavender.api.util.toDateOrTimeDistanceString
 import de.honoka.lavender.api.util.toStringWithUnit
 import de.honoka.lavender.lavsource.android.data.BilibiliLoginParams
+import de.honoka.lavender.lavsource.android.util.BilibiliUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeAndSaveBiliCookies
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.saveBiliCookies
-import de.honoka.sdk.util.android.server.HttpServerVariables
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
-object BilibiliBusinessUtils {
+object BilibiliBusiness {
 
     fun getValidateCode(): JSONObject {
         val url = "https://passport.bilibili.com/x/passport-login/captcha?source=main_web"
@@ -53,7 +52,7 @@ object BilibiliBusinessUtils {
         response.saveBiliCookies()
     }
 
-    fun getNavBarData(): JSONObject {
+    private fun getNavBarData(): JSONObject {
         val url = "https://api.bilibili.com/x/web-interface/nav"
         return BilibiliUtils.requestForJsonObject(url)
     }
@@ -69,23 +68,13 @@ object BilibiliBusinessUtils {
 
     fun logout() = BilibiliUtils.clearCookies()
 
-    fun getProxiedImageUrl(url: String) = run {
-        val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.name())
-        HttpServerVariables.getApiUrlByPath("/platform/bilibili/image/proxy?url=$encodedUrl")
-    }
-
-    fun getProxiedMediaStreamUrl(url: String) = run {
-        val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.name())
-        HttpServerVariables.getApiUrlByPath("/video/stream?url=$encodedUrl")
-    }
-
     fun parseComment(json: JSONObject): Comment = Comment().apply {
         id = json.getLong("rpid").toString()
         sender = UserInfo().apply {
             id = json.getByPath("member.mid", String::class.java).toLong().toString()
             name = json.getByPath("member.uname") as String
             avatar = json.getByPath("member.avatar", String::class.java).run {
-                getProxiedImageUrl(this)
+                LavsourceUtils.getProxiedImageUrl(this)
             }
             level = json.getByPath("member.level_info.current_level") as Int
             ipLocation = json.getByPath("reply_control.location", String::class.java).run {
@@ -103,7 +92,7 @@ object BilibiliBusinessUtils {
             val emote = json.getByPath("content.emote", JSONObject::class.java)
             emote?.keys?.forEach {
                 val url = emote.getJSONObject(it).getStr("url").run {
-                    getProxiedImageUrl(this)
+                    LavsourceUtils.getProxiedImageUrl(this)
                 }
                 val size = emote.getJSONObject(it).getByPath("meta.size", Int::class.java)
                 val sizeClass = "comment-emoticon-size-$size"

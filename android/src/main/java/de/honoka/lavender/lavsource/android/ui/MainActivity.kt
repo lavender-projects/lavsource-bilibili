@@ -9,6 +9,7 @@ import de.honoka.sdk.util.android.common.launchCoroutineOnIoThread
 import de.honoka.sdk.util.android.server.HttpServerUtils
 import de.honoka.sdk.util.android.ui.fullScreenToShow
 import de.honoka.sdk.util.android.ui.jumpToWebActivty
+import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         launchCoroutineOnIoThread {
             //init可能是一个耗时的操作，故在IO线程中执行，防止阻塞UI线程
             initApplication()
+            //防止白屏
+            delay(300)
             jumpToWebActivty(WebActivity::class.java)
         }
     }

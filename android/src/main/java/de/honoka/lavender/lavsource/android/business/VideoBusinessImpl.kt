@@ -5,11 +5,11 @@ import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONNull
 import cn.hutool.json.JSONObject
+import de.honoka.lavender.android.lavsource.sdk.util.LavsourceUtils
 import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.api.data.*
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
-import de.honoka.lavender.lavsource.android.util.BilibiliBusinessUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.addBiliCookies
 import de.honoka.lavender.lavsource.android.util.BilibiliUtils.executeWithBiliCookies
@@ -18,7 +18,7 @@ import io.ktor.http.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class VideoBusinessImpl : VideoBusiness {
+object VideoBusinessImpl : VideoBusiness {
 
     override fun getRecommendedVideoList(): List<RecommendedVideoItem> {
         val url = if(BilibiliUtils.isLogined()) {
@@ -32,7 +32,7 @@ class VideoBusinessImpl : VideoBusiness {
             //可以通过as，直接对it的类型进行断言，在此语句后使用it，都不用再进行类型转换
             it as JSONObject
             result.add(RecommendedVideoItem().apply {
-                coverImg = BilibiliBusinessUtils.getProxiedImageUrl(it.getStr("pic"))
+                coverImg = LavsourceUtils.getProxiedImageUrl(it.getStr("pic"))
                 playCount = it.getByPath("stat.view", Int::class.java).toStringWithUnit()
                 danmakuCount = it.getByPath("stat.danmaku", Int::class.java).toStringWithUnit()
                 duration = it.getInt("duration").toDurationString()
@@ -55,7 +55,7 @@ class VideoBusinessImpl : VideoBusiness {
                 val userCardJson = BilibiliUtils.requestForJsonObject(userCardUrl)
                 name = json.getByPath("data.View.owner.name") as String
                 avatar = json.getByPath("data.View.owner.face", String::class.java).run {
-                    BilibiliBusinessUtils.getProxiedImageUrl(this)
+                    LavsourceUtils.getProxiedImageUrl(this)
                 }
                 followerCount = json.getByPath("data.Card.card.fans", Int::class.java).toStringWithUnit()
                 publishedVideosCount = userCardJson.getByPath(
@@ -86,7 +86,7 @@ class VideoBusinessImpl : VideoBusiness {
                     it as JSONObject
                     add(RecommendedVideoItem().apply {
                         videoId = it.getStr("bvid")
-                        coverImg = BilibiliBusinessUtils.getProxiedImageUrl(it.getStr("pic"))
+                        coverImg = LavsourceUtils.getProxiedImageUrl(it.getStr("pic"))
                         duration = it.getInt("duration").toDurationString()
                         title = it.getStr("title")
                         author = it.getByPath("owner.name") as String
@@ -113,12 +113,12 @@ class VideoBusinessImpl : VideoBusiness {
             if(page <= 1) {
                 val top = json.getByPath("data.upper.top")
                 if(top !is JSONNull) {
-                    this.top = BilibiliBusinessUtils.parseComment(top as JSONObject)
+                    this.top = BilibiliBusiness.parseComment(top as JSONObject)
                 }
             }
             val list = ArrayList<Comment>().also { this.list = it }
             json.getByPath("data.replies", JSONArray::class.java).forEach {
-                list.add(BilibiliBusinessUtils.parseComment(it as JSONObject))
+                list.add(BilibiliBusiness.parseComment(it as JSONObject))
             }
         }
         return result
@@ -131,7 +131,7 @@ class VideoBusinessImpl : VideoBusiness {
         val result = CommentList().apply {
             val list = ArrayList<Comment>().also { this.list = it }
             json.getByPath("data.replies", JSONArray::class.java).forEach {
-                list.add(BilibiliBusinessUtils.parseComment(it as JSONObject))
+                list.add(BilibiliBusiness.parseComment(it as JSONObject))
             }
         }
         return result
@@ -171,11 +171,11 @@ class VideoBusinessImpl : VideoBusiness {
                 type = "dash"
                 this.qualityId = qualityId.toInt().toString()
                 qualityName = qualityIdNameMap[qualityId]
-                videoStreamUrl = BilibiliBusinessUtils.getProxiedMediaStreamUrl(it.getStr("base_url"))
+                videoStreamUrl = LavsourceUtils.getProxiedMediaStreamUrl(it.getStr("base_url"))
                 var audioIndex = i - videoIndeoList.size + audioInfoList.size
                 if(audioIndex < 0) audioIndex = 0
                 audioStreamUrl = audioInfoList[audioIndex].getStr("base_url").run {
-                    BilibiliBusinessUtils.getProxiedMediaStreamUrl(this)
+                    LavsourceUtils.getProxiedMediaStreamUrl(this)
                 }
             })
             addedQualityId.add(qualityId)
