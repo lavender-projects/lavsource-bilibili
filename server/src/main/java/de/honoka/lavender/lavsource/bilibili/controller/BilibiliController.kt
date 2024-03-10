@@ -2,9 +2,9 @@ package de.honoka.lavender.lavsource.bilibili.controller
 
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject
-import de.honoka.lavender.lavsource.bilibili.data.BilibiliLoginParams
-import de.honoka.lavender.lavsource.bilibili.service.BilibiliService
-import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtils.executeWithBiliCookies
+import de.honoka.lavender.lavsource.bilibili.business.business.BilibiliBusiness
+import de.honoka.lavender.lavsource.bilibili.business.data.BilibiliLoginParams
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeWithBiliCookies
 import de.honoka.sdk.util.framework.web.ApiResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.*
@@ -12,19 +12,19 @@ import javax.servlet.http.HttpServletResponse
 
 @RequestMapping("/platform/bilibili")
 @RestController
-class BilibiliController(private val bilibiliService: BilibiliService) {
+class BilibiliController {
 
     @GetMapping("/validateCode")
-    fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getValidateCode())
+    fun validateCode(): ApiResponse<JSONObject> = ApiResponse.success(BilibiliBusiness.getValidateCode())
 
     @PostMapping("/login")
     fun login(@RequestBody params: BilibiliLoginParams): ApiResponse<*> {
-        bilibiliService.login(params)
+        BilibiliBusiness.login(params)
         return ApiResponse.success()
     }
 
     @GetMapping("/loginStatus")
-    fun loginStatus(): ApiResponse<JSONObject> = ApiResponse.success(bilibiliService.getLoginStatus())
+    fun loginStatus(): ApiResponse<JSONObject> = ApiResponse.success(BilibiliBusiness.getLoginStatus())
 
     @GetMapping("/image/proxy")
     fun imageProxy(@RequestParam url: String, response: HttpServletResponse) = response.run {
@@ -37,7 +37,7 @@ class BilibiliController(private val bilibiliService: BilibiliService) {
 
     @GetMapping("/logout")
     fun logout(): ApiResponse<*> {
-        bilibiliService.logout()
+        BilibiliBusiness.logout()
         return ApiResponse.success()
     }
 }

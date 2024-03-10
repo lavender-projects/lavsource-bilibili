@@ -16,7 +16,7 @@ object Versions {
 
     const val springBoot = "2.7.5"
 
-    const val honokaUtils = "1.0.10"
+    const val honokaUtils = "1.0.11-dev"
 
     const val honokaFrameworkUtils = "1.0.4"
 
