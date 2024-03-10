@@ -12,7 +12,7 @@ import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeWithBiliCookies
-import de.honoka.sdk.util.kotlin.text.XmlUtils
+import de.honoka.sdk.util.text.XmlUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
