@@ -1,5 +1,2 @@
 /src/main/assets/web/*
 !/src/main/assets/web/.gitkeep
-/src/main/assets/termux/*
-!/src/main/assets/termux/.gitkeep
-/src/main/assets/lavsource-server/*.jar

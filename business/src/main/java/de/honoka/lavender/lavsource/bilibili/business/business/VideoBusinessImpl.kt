@@ -1,5 +1,6 @@
 package de.honoka.lavender.lavsource.bilibili.business.business
 
+import cn.hutool.http.Header
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONArray
@@ -11,6 +12,7 @@ import de.honoka.lavender.api.util.LavsourceUtils
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
+import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.addBiliCookies
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils.executeWithBiliCookies
 import de.honoka.sdk.util.text.XmlUtils
 import java.text.SimpleDateFormat
@@ -182,9 +184,9 @@ object VideoBusinessImpl : VideoBusiness {
     }
 
     override fun getVideoStreamResponse(url: String, range: String?): HttpResponse = HttpUtil.createGet(url).run {
-        //header(HttpHeaders.Referrer, "https://www.bilibili.com/")
-        //header(HttpHeaders.Range, range ?: "bytes=0-")
-        //addBiliCookies()
+        header(Header.REFERER, "https://www.bilibili.com/")
+        header("Range", range ?: "bytes=0-")
+        addBiliCookies()
         executeAsync()
     }
 

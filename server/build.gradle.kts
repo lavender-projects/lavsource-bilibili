@@ -49,7 +49,7 @@ tasks {
     }
 
     bootJar {
-        archiveFileName.set("lavsource-bilibili-server.jar")
+        archiveFileName.set("${rootProject.name}-server.jar")
     }
 
     test {

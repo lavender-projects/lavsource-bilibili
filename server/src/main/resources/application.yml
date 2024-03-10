@@ -11,11 +11,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
 
-# noinspection SpringBootApplicationYaml
-lavender:
-  lavsource:
-    server-name: bilibili
-
 logging:
   level:
-    de.honoka.lavender.lavsource.bilibili.mapper: debug
+    de.honoka.lavender.lavsource.server.mapper: debug

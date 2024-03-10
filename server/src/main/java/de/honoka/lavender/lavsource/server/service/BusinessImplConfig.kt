@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.bilibili.service
+package de.honoka.lavender.lavsource.server.service
 
 import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.lavsource.bilibili.business.business.VideoBusinessImpl

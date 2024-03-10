@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.bilibili.util
+package de.honoka.lavender.lavsource.server.util
 
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
 import java.io.InputStream

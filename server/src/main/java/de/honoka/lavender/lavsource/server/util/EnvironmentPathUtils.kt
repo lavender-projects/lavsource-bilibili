@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.bilibili.util
+package de.honoka.lavender.lavsource.server.util
 
 import de.honoka.sdk.util.file.AbstractEnvironmentPathUtils
 

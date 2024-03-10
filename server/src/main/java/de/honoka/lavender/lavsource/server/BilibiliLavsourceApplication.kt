@@ -1,6 +1,6 @@
-package de.honoka.lavender.lavsource.bilibili
+package de.honoka.lavender.lavsource.server
 
-import de.honoka.lavender.lavsource.bilibili.util.EmbeddedDatabaseUtils
+import de.honoka.lavender.lavsource.server.util.EmbeddedDatabaseUtils
 import de.honoka.sdk.util.framework.database.AbstractEmbeddedDatabaseUtils
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

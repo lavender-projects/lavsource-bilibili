@@ -1,4 +1,4 @@
-package de.honoka.lavender.lavsource.bilibili.controller
+package de.honoka.lavender.lavsource.server.controller
 
 import cn.hutool.http.HttpUtil
 import cn.hutool.json.JSONObject

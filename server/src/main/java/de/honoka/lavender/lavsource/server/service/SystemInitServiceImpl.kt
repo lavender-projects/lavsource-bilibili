@@ -1,7 +1,7 @@
-package de.honoka.lavender.lavsource.bilibili.service
+package de.honoka.lavender.lavsource.server.service
 
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
-import de.honoka.lavender.lavsource.bilibili.util.BilibiliUtilsAbstractPartImpl
+import de.honoka.lavender.lavsource.server.util.BilibiliUtilsAbstractPartImpl
 import de.honoka.lavender.lavsource.starter.service.SystemInitService
 import org.springframework.stereotype.Service
 
