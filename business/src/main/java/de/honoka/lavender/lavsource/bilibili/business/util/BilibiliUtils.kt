@@ -57,7 +57,7 @@ object BilibiliUtils : PartialAbstract<BilibiliUtils.AbstractPart>() {
             }
         }.toString()
         val cipher = KeyFactory.getInstance("RSA").run {
-            Cipher.getInstance(algorithm).apply {
+            Cipher.getInstance("RSA/ECB/PKCS1PADDING").apply {
                 init(Cipher.PUBLIC_KEY, generatePublic(X509EncodedKeySpec(Base64.decode(key))))
             }
         }

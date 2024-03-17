@@ -22,4 +22,15 @@ class AllAndroidTest {
         val res = BilibiliUtils.encryptPassword("12345abcde", key, hash)
         println(res)
     }
+
+    @Test
+    fun test2() {
+        val key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDjb4V7EidX/ym28t2ybo0U6t0n" +
+            "6p4ej8VjqKHg100va6jkNbNTrLQqMCQCAYtXMXXp2Fwkk6WR+12N9zknLjf+C9sx" +
+            "/+l48mjUU8RqahiFD1XT/u2e0m2EN029OhCgkHx3Fc/KlFSIbak93EH/XlYis0w+" +
+            "Xl69GV6klzgxW6d2xQIDAQAB"
+        val decode1 = android.util.Base64.decode(key, android.util.Base64.DEFAULT)
+        val decode2 = cn.hutool.core.codec.Base64.decode(key)
+        println("$decode1\n\n$decode2")
+    }
 }
