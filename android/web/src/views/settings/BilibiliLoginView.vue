@@ -29,8 +29,8 @@
 import TopLayerSettingsView from '@/components/TopLayerSettingsView.vue'
 import { onMounted, reactive, ref } from 'vue'
 import messageUtils from '@/utils/message'
-import loginApi from '@/api/login'
 import { useRouter } from 'vue-router'
+import bilibiliJsInterface from '@/androidJsInterfaces/bilibiliJsInterface'
 
 const status = reactive({
   formSubmitting: false,
@@ -68,8 +68,8 @@ function initValidateCode() {
   status.validateCodeLoaded = false
   status.validateCodeLoadFailed = false
   componentData.validateCodeLoadingStatusText = '加载中……'
-  loginApi.validateCode().then(res => {
-    let resData = res.data ?? {
+  bilibiliJsInterface.validateCode().then(res => {
+    let resData = res ?? {
       geetest: {
         challenge: null,
         gt: null
@@ -125,15 +125,10 @@ function onSubmit() {
     return
   }
   status.formSubmitting = true
-  loginApi.login({
+  bilibiliJsInterface.login({
     ...form,
     ...validationData
-  }).then(res => {
-    if(res.status !== true) {
-      //noinspection JSUnresolvedReference
-      messageUtils.error(res.msg)
-      return
-    }
+  }).then(() => {
     router.push('/settings')
   }).catch(() => {
     validateCodeDom.value.innerHTML = ''

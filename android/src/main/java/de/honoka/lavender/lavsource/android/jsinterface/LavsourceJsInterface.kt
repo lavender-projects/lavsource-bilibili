@@ -6,5 +6,5 @@ import de.honoka.sdk.util.android.server.HttpServerVariables
 class LavsourceJsInterface {
 
     @JavascriptInterface
-    fun getUrlPrefix() = HttpServerVariables.getApiUrlByPath("")
+    fun getUrlPrefix(): String = HttpServerVariables.getApiUrlByPath("")
 }

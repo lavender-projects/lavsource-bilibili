@@ -130,7 +130,9 @@ object VideoBusinessImpl : VideoBusiness {
         val json = BilibiliUtils.requestForJsonObject(url)
         val result = CommentList().apply {
             val list = ArrayList<Comment>().also { this.list = it }
-            json.getByPath("data.replies", JSONArray::class.java).forEach {
+            val replies = json.getByPath("data.replies")
+            if(replies !is JSONArray) return@apply
+            replies.forEach {
                 list.add(BilibiliBusiness.parseComment(it as JSONObject))
             }
         }

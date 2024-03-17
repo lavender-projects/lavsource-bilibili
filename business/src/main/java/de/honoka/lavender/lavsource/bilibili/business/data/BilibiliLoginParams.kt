@@ -1,5 +1,7 @@
 package de.honoka.lavender.lavsource.bilibili.business.data
 
+import java.io.Serializable
+
 data class BilibiliLoginParams(
 
     var username: String? = null,
@@ -15,4 +17,4 @@ data class BilibiliLoginParams(
     var validate: String? = null,
 
     var seccode: String? = null
-)
+) : Serializable

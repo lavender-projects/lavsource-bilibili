@@ -13,8 +13,8 @@
 <script setup>
 import TopLayerSettingsView from '@/components/TopLayerSettingsView.vue'
 import { onMounted, reactive } from 'vue'
-import loginApi from '@/api/login'
 import { showConfirmDialog } from 'vant'
+import bilibiliJsInterface from '@/androidJsInterfaces/bilibiliJsInterface'
 
 const loginStatus = reactive({
   loaded: false,
@@ -29,10 +29,10 @@ onMounted(() => {
 function getLoginStatus() {
   loginStatus.loaded = false
   loginStatus.username = '加载中……'
-  loginApi.loginStatus().then(res => {
+  bilibiliJsInterface.loginStatus().then(res => {
     loginStatus.loaded = true
-    loginStatus.logined = res.data.logined
-    loginStatus.username = res.data.logined === true ? res.data.username : '未登录'
+    loginStatus.logined = res.logined
+    loginStatus.username = res.logined === true ? res.username : '未登录'
   }).catch(() => {
     loginStatus.username = '加载失败'
   })
@@ -44,7 +44,7 @@ function logout() {
     message: '确认退出登录吗？',
     beforeClose: async action => {
       if(action === 'confirm') {
-        await loginApi.logout()
+        await bilibiliJsInterface.logout()
       }
       //返回true表示应该关闭弹窗，而不是退出登录成功
       return true
