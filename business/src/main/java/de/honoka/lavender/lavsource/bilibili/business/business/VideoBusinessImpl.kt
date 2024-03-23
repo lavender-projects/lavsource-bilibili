@@ -9,6 +9,7 @@ import cn.hutool.json.JSONObject
 import de.honoka.lavender.api.business.VideoBusiness
 import de.honoka.lavender.api.data.*
 import de.honoka.lavender.api.util.LavsourceUtils
+import de.honoka.lavender.api.util.MpdFileData
 import de.honoka.lavender.api.util.toDurationString
 import de.honoka.lavender.api.util.toStringWithUnit
 import de.honoka.lavender.lavsource.bilibili.business.util.BilibiliUtils
@@ -153,6 +154,7 @@ object VideoBusinessImpl : VideoBusiness {
         return episodeList
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getStreamUrlList(videoId: String, episodeId: String): List<VideoStreamInfo> {
         val urlToGetStreamUrl = "https://api.bilibili.com/x/player/wbi/playurl?bvid=$videoId&cid=$episodeId&fnval=16"
         val json = BilibiliUtils.requestForJsonObject(urlToGetStreamUrl)
@@ -163,10 +165,11 @@ object VideoBusinessImpl : VideoBusiness {
             }
         }
         val result = ArrayList<VideoStreamInfo>()
-        val videoIndeoList = json.getByPath("data.dash.video", JSONArray::class.java).toList(JSONObject::class.java)
-        val audioInfoList = json.getByPath("data.dash.audio", JSONArray::class.java).toList(JSONObject::class.java)
+        val dashInfoJson = json.getByPath("data.dash") as JSONObject
+        val videoInfoList = dashInfoJson.getJSONArray("video") as List<JSONObject>
+        val audioInfoList = dashInfoJson.getJSONArray("audio") as List<JSONObject>
         val addedQualityId = HashSet<String>()
-        videoIndeoList.forEachIndexed { i, it ->
+        videoInfoList.forEachIndexed { i, it ->
             val qualityId = it.getInt("id").toString()
             if(addedQualityId.contains(qualityId)) return@forEachIndexed
             result.add(VideoStreamInfo().apply {
@@ -174,11 +177,44 @@ object VideoBusinessImpl : VideoBusiness {
                 this.qualityId = qualityId.toInt().toString()
                 qualityName = qualityIdNameMap[qualityId]
                 videoStreamUrl = LavsourceUtils.getProxiedMediaStreamUrl(it.getStr("base_url"))
-                var audioIndex = i - videoIndeoList.size + audioInfoList.size
+                var audioIndex = i - videoInfoList.size + audioInfoList.size
                 if(audioIndex < 0) audioIndex = 0
-                audioStreamUrl = audioInfoList[audioIndex].getStr("base_url").run {
+                val audioInfo = audioInfoList[audioIndex]
+                audioStreamUrl = audioInfo.getStr("base_url").run {
                     LavsourceUtils.getProxiedMediaStreamUrl(this)
                 }
+                this.dashManifest = MpdFileData().apply {
+                    basic.run {
+                        duration = dashInfoJson.getDouble("duration")
+                        minBufferTime = dashInfoJson.getDouble("minBufferTime")
+                    }
+                    video.run {
+                        streamUrl = videoStreamUrl
+                        bandwidth = it.getLong("bandwidth")
+                        mimeType = it.getStr("mimeType")
+                        codecs = it.getStr("codecs")
+                        width = it.getInt("width")
+                        height = it.getInt("height")
+                        frameRate = it.getStr("frameRate")
+                        sar = it.getStr("sar")
+                        startWithSap = it.getInt("startWithSap")
+                        segmentBase.run {
+                            initialization = it.getByPath("SegmentBase.Initialization") as String
+                            indexRange = it.getByPath("SegmentBase.indexRange") as String
+                        }
+                    }
+                    audio.run {
+                        streamUrl = audioStreamUrl
+                        bandwidth = audioInfo.getLong("bandwidth")
+                        mimeType = audioInfo.getStr("mimeType")
+                        codecs = audioInfo.getStr("codecs")
+                        startWithSap = audioInfo.getInt("startWithSap")
+                        segmentBase.run {
+                            initialization = audioInfo.getByPath("SegmentBase.Initialization") as String
+                            indexRange = audioInfo.getByPath("SegmentBase.indexRange") as String
+                        }
+                    }
+                }.toString()
             })
             addedQualityId.add(qualityId)
         }

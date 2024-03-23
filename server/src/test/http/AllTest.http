@@ -12,3 +12,47 @@ GET {{base_url}}/platform/bilibili/validateCode
 
 ###
 GET {{base_url}}/platform/bilibili/loginStatus
+
+###
+POST {{base_url}}/video/stream/dashManifest
+Content-Type: application/json
+
+{
+  "type": "dash",
+  "qualityId": "80",
+  "qualityName": "1080P 高清",
+  "videoStreamUrl": "?????",
+  "audioStreamUrl": "?????",
+  "dashInfo": {
+    "duration": 250.0,
+    "minBufferTime": 1.5,
+    "video": {
+      "bandwidth": 2550505,
+      "mimeType": "video/mp4",
+      "codecs": "avc1.640032",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": "29.412",
+      "sar": "1:1",
+      "startWithSap": 1,
+      "segmentBase": {
+        "initialization": "0-996",
+        "indexRange": "997-1628"
+      }
+    },
+    "audio": {
+      "bandwidth": 146809,
+      "mimeType": "audio/mp4",
+      "codecs": "mp4a.40.2",
+      "width": null,
+      "height": null,
+      "frameRate": null,
+      "sar": null,
+      "startWithSap": 0,
+      "segmentBase": {
+        "initialization": "0-933",
+        "indexRange": "934-1565"
+      }
+    }
+  }
+}

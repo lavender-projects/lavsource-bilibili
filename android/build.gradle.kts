@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import de.honoka.gradle.buildsrc.Android
 import de.honoka.gradle.buildsrc.Versions
 
 plugins {
@@ -18,8 +19,8 @@ android {
         minSdk = 26
         @SuppressLint("OldTargetApi")
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0.0-dev"
+        versionCode = Android.versionCode!!
+        versionName = rootProject.version.toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

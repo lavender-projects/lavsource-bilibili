@@ -15,7 +15,7 @@ plugins {
     kotlin("plugin.jpa") version versions.kotlin
 }
 
-version = "1.0.0-dev"
+version = rootProject.version
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
