@@ -172,6 +172,8 @@ object VideoBusinessImpl : VideoBusiness {
         videoInfoList.forEachIndexed { i, it ->
             val qualityId = it.getInt("id").toString()
             if(addedQualityId.contains(qualityId)) return@forEachIndexed
+            val videoCodecs = it.getStr("codecs")
+            if(videoCodecs?.contains("hev1") == true) return@forEachIndexed
             result.add(VideoStreamInfo().apply {
                 type = "dash"
                 this.qualityId = qualityId.toInt().toString()
@@ -192,7 +194,7 @@ object VideoBusinessImpl : VideoBusiness {
                         streamUrl = videoStreamUrl
                         bandwidth = it.getLong("bandwidth")
                         mimeType = it.getStr("mimeType")
-                        codecs = it.getStr("codecs")
+                        codecs = videoCodecs
                         width = it.getInt("width")
                         height = it.getInt("height")
                         frameRate = it.getStr("frameRate")
@@ -218,6 +220,7 @@ object VideoBusinessImpl : VideoBusiness {
             })
             addedQualityId.add(qualityId)
         }
+        if(result.isEmpty()) throw RuntimeException("暂无可用视频源")
         return result
     }
 
