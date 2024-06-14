@@ -2,7 +2,7 @@
 
 set -e
 
-cd $(dirname "$0")/..
+cd $(dirname "$0")/../..
 PROJECT_PATH="$(pwd)"
 
 # 打包android/web模块
@@ -11,8 +11,8 @@ chmod +x ./android/scripts/*.sh
 
 # Gradle打包
 chmod +x gradlew
-./gradlew build
+./gradlew android:build
 
 # 重命名APK
 cd ./android/build/outputs/apk/release
-mv app-release-unsigned.apk "lavsource-bilibili-$1.apk"
+mv android-release-unsigned.apk "lavsource-bilibili-$1.apk"

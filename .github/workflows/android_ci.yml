@@ -30,10 +30,10 @@ jobs:
       - name: Retrieve version
         run: |
           echo VERSION=$(echo ${{ github.event.head_commit.id }} | head -c 7) >> $GITHUB_ENV
-      - name: Build with Gradle
+      - name: Build APK with Gradle
         run: |
-          chmod +x ./scripts/*.sh
-          ./scripts/build.sh ${{ env.VERSION }}
+          chmod +x ./scripts/build/*.sh
+          ./scripts/build/android.sh ${{ env.VERSION }}
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
