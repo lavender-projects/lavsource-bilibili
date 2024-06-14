@@ -1,15 +1,13 @@
-import de.honoka.gradle.buildsrc.Versions
+import de.honoka.gradle.buildsrc.kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.charset.StandardCharsets
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    @Suppress("RemoveRedundantQualifierName")
-    val versions = de.honoka.gradle.buildsrc.Versions
-    //plugins
     java
-    kotlin("jvm") version versions.kotlin
-    kotlin("plugin.spring") version versions.kotlin
-    kotlin("plugin.jpa") version versions.kotlin
+    alias(libs.plugins.jvm.kotlin)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.jpa)
 }
 
 java {
@@ -17,10 +15,11 @@ java {
     targetCompatibility = sourceCompatibility
 }
 
+@Suppress("GradleDependency")
+//noinspection UseTomlInstead
 dependencies {
-    implementation("de.honoka.lavender:lavender-api:${Versions.lavsourceApi}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")
+    kotlin(project)
+    implementation(libs.jvm.lavender.api)
     implementation("cn.hutool:hutool-all:5.8.18")
 }
 

@@ -1,0 +1,34 @@
+[versions]
+# project modules version
+root = "1.0.0-dev"
+app-version-name = "1.0.0-dev"
+app-version-code = "1"
+server = "1.0.0-dev"
+
+# dependencies version
+android-gradle-plugin = "8.0.0"
+android-sdk-compile = "33"
+android-sdk-min = "26"
+android-kotlin = "1.8.0"
+jvm-kotlin = "1.6.21"
+jvm-kotlin-coroutines = "1.6.3"
+jvm-lavender-api = "1.0.1-dev"
+jvm-honoka-kotlin-utils = "1.0.1-dev"
+jvm-honoka-framework-utils = "1.0.4"
+spring-boot = "2.7.5"
+lavsource-app-sdk = "1.0.0-dev"
+lavsource-spring-boot-starter = "1.0.1-dev"
+
+[plugins]
+jvm-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "jvm-kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "jvm-kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "jvm-kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+dependency-management = "io.spring.dependency-management:1.0.11.RELEASE"
+
+[libraries]
+jvm-lavender-api = { module = "de.honoka.lavender:lavender-api", version.ref = "jvm-lavender-api" }
+jvm-honoka-kotlin-utils = { module = "de.honoka.sdk:honoka-kotlin-utils", version.ref = "jvm-honoka-kotlin-utils" }
+jvm-honoka-framework-utils = { module = "de.honoka.sdk:honoka-framework-utils", version.ref = "jvm-honoka-framework-utils" }
+lavsource-app-sdk = { module = "de.honoka.lavender:lavsource-app-sdk", version.ref = "lavsource-app-sdk" }
+lavsource-spring-boot-starter = { module = "de.honoka.lavender:lavsource-spring-boot-starter", version.ref = "lavsource-spring-boot-starter" }

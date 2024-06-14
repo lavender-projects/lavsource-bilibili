@@ -1,11 +1,9 @@
-import de.honoka.gradle.buildsrc.Android
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    alias(libs.plugins.dependency.management) apply false
 }
 
-version = "1.0.0-dev"
-Android.versionCode = 1
+version = libs.versions.root.get()
 
 allprojects {
     group = "de.honoka.lavender"
