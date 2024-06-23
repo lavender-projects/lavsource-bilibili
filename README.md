@@ -20,6 +20,10 @@ LavSource bilibili是一款为[Lavender](https://github.com/lavender-projects/la
 
 **本项目仅供学习、研究等非商业用途，切勿将本项目或本项目中的任何一部分代码用于商业用途。**
 
+## 下载
+- 正式版：可在[Releases](../../releases)栏目中下载各个正式版，或查看更新日志。
+- 开发版：可在[Actions](../../actions)栏目中下载各个开发版，或查看构建工具的输出内容。
+
 ## 使用
 ### 插件式App
 在[Releases](../../releases)或[Actions](../../actions)栏目中找到安装包，下载并安装，下载后不论是否启动均可。
